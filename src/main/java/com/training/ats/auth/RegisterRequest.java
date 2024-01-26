@@ -1,5 +1,6 @@
 package com.training.ats.auth;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,8 +11,15 @@ import lombok.NoArgsConstructor;
  */
 
 public record RegisterRequest(
+        @NotNull
+        String firstName,
+        @NotNull
+        String lastName,
+        @NotNull
         String username,
+        @NotNull
         String password,
+        @NotNull
         String confirmPassword
 ) {}
 
