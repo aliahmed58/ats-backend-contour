@@ -1,4 +1,4 @@
-package com.training.ats.auth.config;
+package com.training.ats.auth;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
