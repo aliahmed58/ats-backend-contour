@@ -1,4 +1,4 @@
-package com.training.ats.auth.config;
+package com.training.ats.config;
 
 import com.training.ats.auth.JwtAuthFilter;
 import org.springframework.beans.factory.annotation.Autowired;
