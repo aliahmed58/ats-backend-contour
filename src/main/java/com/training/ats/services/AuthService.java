@@ -41,6 +41,11 @@ public class AuthService {
         if (userRepository.findById(registerRequest.username()).isPresent()) {
             throw new AuthenticationException("User already exists");
         }
+        // check if password and confirm passwords match
+        if (!registerRequest.password().equals(registerRequest.confirmPassword())) {
+            throw new AuthenticationException("Password and Confirm password do not match");
+        }
+
         // create a new user object to save in repository
         AtsUser user = AtsUser.builder()
                 .username(registerRequest.username())
@@ -63,7 +68,7 @@ public class AuthService {
         ));
 
         // get user from database, create token and return
-        AtsUser user = userRepository.findById(request.password())
+        AtsUser user = userRepository.findById(request.username())
                 .orElseThrow(() -> new UsernameNotFoundException("user not found"));
 
         return new AuthResponse(jwtService.generateJwt(user));
