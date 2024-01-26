@@ -58,12 +58,12 @@ public class AuthService {
     public AuthResponse authenticateUser(AuthRequest request) {
         // authenticate the user using the authentication manager
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                request.getUsername(),
-                request.getPassword()
+                request.username(),
+                request.password()
         ));
 
         // get user from database, create token and return
-        AtsUser user = userRepository.findById(request.getUsername())
+        AtsUser user = userRepository.findById(request.password())
                 .orElseThrow(() -> new UsernameNotFoundException("user not found"));
 
         return new AuthResponse(jwtService.generateJwt(user));
