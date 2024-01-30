@@ -25,7 +25,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ServerError> handleException(AuthenticationException e, HttpServletRequest request) {
         ServerError error = new ServerError(
                 request.getRequestURI(),
-                e.getMessage(),
+                "Authentication error",
                 HttpStatus.CONFLICT.value(),
                 LocalDateTime.now()
         );
@@ -43,7 +43,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ServerError> handleException(SecurityException e, HttpServletRequest request) {
         ServerError error = new ServerError(
                 request.getRequestURI(),
-                e.getMessage(),
+                "Unauthorized. Access denied",
                 HttpStatus.UNAUTHORIZED.value(),
                 LocalDateTime.now()
         );
