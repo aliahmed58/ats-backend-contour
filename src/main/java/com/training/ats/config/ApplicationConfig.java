@@ -20,6 +20,10 @@ public class ApplicationConfig {
     @Autowired
     private AtsUserRepository repository;
 
+    /**
+     * defines where users will be looked for during auth in the application
+     * @return user details service looking for user in database by username
+     */
     @Bean
     public UserDetailsService userDetailsService() {
         // ad a sample recruiter
@@ -50,6 +54,10 @@ public class ApplicationConfig {
         return authProvider;
     }
 
+    /**
+     * return a bean of password encoder used to hash passwords
+     * @return password encoder object
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

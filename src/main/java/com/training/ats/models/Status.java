@@ -7,6 +7,9 @@ import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Objects;
 
@@ -14,6 +17,9 @@ import java.util.Objects;
  * application status: pending, rejected, etc.
  */
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 public class Status {
   @Id
   @GeneratedValue
@@ -21,43 +27,5 @@ public class Status {
 
   @NotNull(message = "Status cannot be null")
   @NotBlank(message = "Status cannot be blank")
-  @NotEmpty(message = "Status cannot be empty")
   private String statusType;
-
-  public Status(long statusId, String statusType) {
-    this.statusId = statusId;
-    this.statusType = statusType;
-  }
-
-  public Status() {}
-
-  public long getStatusId() {
-    return statusId;
-  }
-
-  public void setStatusId(long statusId) {
-    this.statusId = statusId;
-  }
-
-  public String getStatusType() {
-    return statusType;
-  }
-
-  public void setStatusType(String statusType) {
-    this.statusType = statusType;
-  }
-
-  // equate status to use id
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    Status status = (Status) o;
-    return statusId == status.statusId;
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(statusId);
-  }
 }

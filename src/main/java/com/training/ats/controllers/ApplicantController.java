@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 /**
+ * /applicant
  * rest controller for handling applicant end points such as accessing applications,
  * creating applications and so on
  */

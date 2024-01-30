@@ -3,6 +3,9 @@ package com.training.ats.models;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Objects;
 
@@ -10,6 +13,9 @@ import java.util.Objects;
  * job type table including type of job and level of seniority
  */
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 public class JobType {
 
   @Id
@@ -25,48 +31,4 @@ public class JobType {
   @JoinColumn(name = "level_id", nullable = false)
   private Level jobLevel;
 
-  public JobType() {}
-
-  public JobType(Long jobTypeId, String type, Level jobLevel) {
-    this.jobTypeId = jobTypeId;
-    this.type = type;
-    this.jobLevel = jobLevel;
-  }
-
-  public Long getJobTypeId() {
-    return jobTypeId;
-  }
-
-  public void setJobTypeId(Long jobTypeId) {
-    this.jobTypeId = jobTypeId;
-  }
-
-  public String getType() {
-    return type;
-  }
-
-  public void setType(String type) {
-    this.type = type;
-  }
-
-  public Level getJobLevel() {
-    return jobLevel;
-  }
-
-  public void setJobLevel(Level jobLevel) {
-    this.jobLevel = jobLevel;
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    JobType jobType = (JobType) o;
-    return Objects.equals(jobTypeId, jobType.jobTypeId);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(jobTypeId);
-  }
 }
