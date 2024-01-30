@@ -27,5 +27,15 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.CONFLICT);
     }
 
+    @ExceptionHandler(SecurityException.class)
+    public ResponseEntity<ServerError> handleException(SecurityException e, HttpServletRequest request) {
+        ServerError error = new ServerError(
+                request.getRequestURI(),
+                e.getMessage(),
+                HttpStatus.UNAUTHORIZED.value(),
+                LocalDateTime.now()
+        );
 
+        return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
+    }
 }

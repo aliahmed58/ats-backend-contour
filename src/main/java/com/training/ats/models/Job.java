@@ -27,7 +27,7 @@ public class Job {
   private String jobDescription;
 
   @NotNull(message = "Job - Job type cannot be null")
-  @OneToOne
+  @ManyToOne
   @JoinColumn(name = "job_type_id", nullable = false)
   private JobType jobType;
 

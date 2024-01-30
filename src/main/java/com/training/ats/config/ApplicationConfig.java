@@ -1,4 +1,6 @@
 package com.training.ats.config;
+import com.training.ats.models.AtsUser;
+import com.training.ats.models.RoleType;
 import com.training.ats.repositories.AtsUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -20,6 +22,10 @@ public class ApplicationConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
+        // ad a sample recruiter
+        repository.save(AtsUser.builder()
+                .username("test1").firstName("John").lastName("Doe")
+                .passwordHash(passwordEncoder().encode("test")).roleType(RoleType.RECRUITER).build());
         return username -> repository.findById(username)
                 .orElseThrow(() -> new UsernameNotFoundException("user not found"));
     }

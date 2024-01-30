@@ -33,7 +33,7 @@ public class Application {
   private String description;
 
   @NotNull(message = "Status cannot be null")
-  @OneToOne
+  @ManyToOne
   @JoinColumn(name = "status_id", nullable = false)
   private Status applicationStatus;
 
