@@ -5,6 +5,7 @@ import com.training.ats.responsedto.ApplicantRecord;
 import com.training.ats.services.ApplicantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,6 +20,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/applicant")
+@Secured("ROLE_APPLICANT")
 public class ApplicantController {
 
   @Autowired
@@ -26,6 +28,7 @@ public class ApplicantController {
 
   /**
    * api endpoint to get applicant profile
+   *
    * @return ApplicantRecord object containing applicant data
    */
   @GetMapping("/profile")

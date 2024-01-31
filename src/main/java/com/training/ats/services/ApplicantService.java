@@ -31,8 +31,6 @@ public class ApplicantService {
   public ApplicantRecord getApplicantProfile() {
     // get user from authentication context
     AtsUser user = (AtsUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    // check if user is applicant or not
-    if (user.getRoleType() == RoleType.APPLICANT) {
       // return record type, do not expose the actual user object
       List<Application> applications = applicationRepository.findByApplicant(user);
       // map to record objects using stream
@@ -47,11 +45,6 @@ public class ApplicantService {
               .collect(Collectors.toList());
       return new ApplicantRecord(user.getFirstName(), user.getLastName(), user.getUsername(), applicationRecords);
     }
-    else {
-      throw new SecurityException("Unauthorized. Access denied");
-    }
-
-  }
 
   public List<Job> getAllJobs() {
     return jobRepository.findAll();

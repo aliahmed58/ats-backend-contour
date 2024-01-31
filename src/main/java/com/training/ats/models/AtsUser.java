@@ -8,9 +8,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * a user (applicant, recruiter) will inherit from this BaseUser class which has common information
@@ -25,6 +28,7 @@ import java.util.Collection;
 @Table(name = "users")
 public class AtsUser implements UserDetails {
 
+  private final String ROLE_PREFIX = "ROLE_";
   // the primary key will be the String username
   @Id
   protected String username;
@@ -39,12 +43,14 @@ public class AtsUser implements UserDetails {
   @NotNull(message = "password hash cannot be null")
   protected String passwordHash;
 
-  @Enumerated(value = EnumType.ORDINAL)
+  @Enumerated(value = EnumType.STRING)
   protected RoleType roleType;
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    return null;
+    List<GrantedAuthority> authorityList = new ArrayList<>();
+    authorityList.add(new SimpleGrantedAuthority(ROLE_PREFIX + roleType));
+    return authorityList;
   }
 
   @Override
