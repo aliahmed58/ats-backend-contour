@@ -1,5 +1,7 @@
 package com.training.ats.controllers;
 
+import com.training.ats.dto.ApplicationRecord;
+import com.training.ats.dto.ResponseRecord;
 import com.training.ats.models.Job;
 import com.training.ats.dto.ApplicantRecord;
 import com.training.ats.services.ApplicantService;
@@ -12,32 +14,42 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-/**
- * /applicant
- * rest controller for handling applicant end points such as accessing applications,
- * creating applications and so on
- */
 
 @RestController
 @RequestMapping("/applicant")
 @Secured("ROLE_APPLICANT")
-public class ApplicantController {
+public class ApplicantController implements GenericControllerInterface<ApplicationRecord, String> {
 
   @Autowired
   private ApplicantService applicantService;
 
-  /**
-   * api endpoint to get applicant profile
-   *
-   * @return ApplicantRecord object containing applicant data
-   */
-  @GetMapping("/profile")
-  public ResponseEntity<ApplicantRecord> applicantProfile() {
-    return ResponseEntity.ok(applicantService.getApplicantProfile());
+  @Override
+  public ResponseEntity<List<ApplicationRecord>> getAll() {
+    return null;
   }
 
-  @GetMapping("/view_jobs")
-  public ResponseEntity<List<Job>> viewJobs() {
-    return ResponseEntity.ok(applicantService.getAllJobs());
+  @Override
+  public ResponseEntity<ApplicationRecord> getById(String id) {
+    return null;
+  }
+
+  @Override
+  public ResponseEntity<ResponseRecord> deleteById(String id) {
+    return null;
+  }
+
+  @Override
+  public ResponseEntity<ResponseRecord> deleteAll() {
+    return null;
+  }
+
+  @Override
+  public ResponseEntity<ResponseRecord> update(ApplicationRecord object, String id) {
+    return null;
+  }
+
+  @Override
+  public ResponseEntity<ResponseRecord> save(ApplicationRecord object) {
+    return null;
   }
 }

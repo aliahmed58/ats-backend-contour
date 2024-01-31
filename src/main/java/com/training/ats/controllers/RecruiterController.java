@@ -10,29 +10,48 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * rest controller for recruiter routes /admin
  * only available for authenticated users with role type of ROLE_RECRUITER
  */
 @RestController
-@RequestMapping("/admin")
+@RequestMapping("/recruiter")
 @Secured("ROLE_RECRUITER")
-public class RecruiterController {
+public class RecruiterController implements GenericControllerInterface<RecruiterRecord, String> {
 
     @Autowired
     private RecruiterService recruiterService;
 
-    /**
-     * api end point for recruiter profile
-     * @return response with recruiter profile if authorized
-     */
-    @GetMapping("/profile")
-    public ResponseEntity<RecruiterRecord> recruiterProfile() {
-        return ResponseEntity.ok(recruiterService.getRecruiterProfile());
+
+    @Override
+    public ResponseEntity<List<RecruiterRecord>> getAll() {
+        return null;
     }
 
-    @PostMapping("/addJob")
-    public ResponseEntity<ResponseRecord> addNewJob(@RequestBody @Valid AddJobRecord newJobRecord) {
-        return ResponseEntity.ok(recruiterService.addNewJob(newJobRecord));
+    @Override
+    public ResponseEntity<RecruiterRecord> getById(String id) {
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<ResponseRecord> deleteById(String id) {
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<ResponseRecord> deleteAll() {
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<ResponseRecord> update(RecruiterRecord object, String id) {
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<ResponseRecord> save(RecruiterRecord object) {
+        return null;
     }
 }
