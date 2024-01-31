@@ -1,8 +1,8 @@
 package com.training.ats.controllers;
 
-import com.training.ats.requestdto.AddJobRecord;
-import com.training.ats.responsedto.RecruiterRecord;
-import com.training.ats.responsedto.ResponseRecord;
+import com.training.ats.dto.AddJobRecord;
+import com.training.ats.dto.RecruiterRecord;
+import com.training.ats.dto.ResponseRecord;
 import com.training.ats.services.RecruiterService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

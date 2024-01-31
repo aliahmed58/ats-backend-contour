@@ -1,4 +1,4 @@
-package com.training.ats.controllers;
+package com.training.ats.auth;
 
 import com.training.ats.auth.AuthRequest;
 import com.training.ats.auth.AuthResponse;

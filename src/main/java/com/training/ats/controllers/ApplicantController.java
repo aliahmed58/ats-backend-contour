@@ -1,7 +1,7 @@
 package com.training.ats.controllers;
 
 import com.training.ats.models.Job;
-import com.training.ats.responsedto.ApplicantRecord;
+import com.training.ats.dto.ApplicantRecord;
 import com.training.ats.services.ApplicantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

@@ -1,4 +1,4 @@
-package com.training.ats.responsedto;
+package com.training.ats.dto;
 
 /**
  * record object to return a recruiters data as a response entity

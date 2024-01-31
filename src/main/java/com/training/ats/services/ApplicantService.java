@@ -3,16 +3,14 @@ package com.training.ats.services;
 import com.training.ats.models.Application;
 import com.training.ats.models.AtsUser;
 import com.training.ats.models.Job;
-import com.training.ats.models.RoleType;
 import com.training.ats.repositories.ApplicationRepository;
 import com.training.ats.repositories.JobRepository;
-import com.training.ats.responsedto.ApplicantRecord;
-import com.training.ats.responsedto.ApplicationRecord;
+import com.training.ats.dto.ApplicantRecord;
+import com.training.ats.dto.ApplicationRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 

@@ -1,4 +1,4 @@
-package com.training.ats.requestdto;
+package com.training.ats.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

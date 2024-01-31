@@ -1,4 +1,4 @@
-package com.training.ats.responsedto;
+package com.training.ats.dto;
 
 import java.util.List;
 
