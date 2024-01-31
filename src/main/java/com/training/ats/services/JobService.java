@@ -1,6 +1,7 @@
 package com.training.ats.services;
 
 
+import com.training.ats.dto.ResponseRecord;
 import com.training.ats.repositories.JobRepository;
 import com.training.ats.dto.JobRecord;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,22 +26,22 @@ public class JobService implements GenericServiceInterface<JobRecord, Long> {
     }
 
     @Override
-    public void deleteById(Long id) {
-
+    public ResponseRecord deleteById(Long id) {
+        return  null;
     }
 
     @Override
-    public void deleteAll() {
-
+    public ResponseRecord deleteAll() {
+        return null;
     }
 
     @Override
-    public void update(JobRecord object, Long id) {
-
+    public ResponseRecord update(JobRecord object, Long id) {
+        return null;
     }
 
     @Override
-    public void save(JobRecord object) {
-
+    public ResponseRecord save(JobRecord object) {
+        return null;
     }
 }

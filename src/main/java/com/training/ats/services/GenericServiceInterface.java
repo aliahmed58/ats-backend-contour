@@ -1,11 +1,6 @@
 package com.training.ats.services;
 
-import jakarta.validation.Valid;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import com.training.ats.dto.ResponseRecord;
 
 import java.util.List;
 
@@ -25,24 +20,32 @@ public interface GenericServiceInterface<T, K> {
 
     /**
      * delete a record by id
+     *
      * @param id key id
+     * @return
      */
-    void deleteById(K id);
+    ResponseRecord deleteById(K id);
 
     /**
      * delete all records
+     *
+     * @return
      */
-    void deleteAll();
+    ResponseRecord deleteAll();
 
     /**
      * update a record given id
+     *
      * @param id primary key
+     * @return
      */
-    void update(T object, K id);
+    ResponseRecord update(T object, K id);
 
     /**
      * Save a given object into database
+     *
      * @param object object to save
+     * @return
      */
-    void save(T object);
+    ResponseRecord save(T object);
 }

@@ -1,5 +1,6 @@
 package com.training.ats.controllers;
 
+import com.training.ats.dto.ResponseRecord;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,28 +31,36 @@ public interface GenericControllerInterface<T, K> {
 
     /**
      * delete a record by id
+     *
      * @param id key id
+     * @return
      */
     @GetMapping("/delete/{id}")
-    void deleteById(K id);
+    ResponseEntity<ResponseRecord> deleteById(K id);
 
     /**
      * delete all records
+     *
+     * @return
      */
     @GetMapping("/delete")
-    void deleteAll();
+    ResponseEntity<ResponseRecord> deleteAll();
 
     /**
      * update a record given id
+     *
      * @param id primary key
+     * @return
      */
     @PostMapping("/update/{id}")
-    void update(@RequestBody @Valid T object, @PathVariable K id);
+    ResponseEntity<ResponseRecord> update(@RequestBody @Valid T object, @PathVariable K id);
 
     /**
      * Save a given object into database
+     *
      * @param object object to save
+     * @return
      */
     @PostMapping("/save")
-    void save(@RequestBody @Valid T object);
+    ResponseEntity<ResponseRecord> save(@RequestBody @Valid T object);
 }

@@ -1,6 +1,7 @@
 package com.training.ats.controllers;
 
 import com.training.ats.dto.LevelRecord;
+import com.training.ats.dto.ResponseRecord;
 import com.training.ats.services.LevelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,22 +28,22 @@ public class LevelController implements GenericControllerInterface<LevelRecord, 
     }
 
     @Override
-    public void deleteById(Long id) {
-
+    public ResponseEntity<ResponseRecord> deleteById(Long id) {
+        return null;
     }
 
     @Override
-    public void deleteAll() {
-
+    public ResponseEntity<ResponseRecord> deleteAll() {
+        return null;
     }
 
     @Override
-    public void update(LevelRecord object, Long id) {
-
+    public ResponseEntity<ResponseRecord> update(LevelRecord object, Long id) {
+        return null;
     }
 
     @Override
-    public void save(LevelRecord object) {
-
+    public ResponseEntity<ResponseRecord> save(LevelRecord object) {
+        return null;
     }
 }

@@ -1,6 +1,7 @@
 package com.training.ats.controllers;
 
 import com.training.ats.dto.JobRecord;
+import com.training.ats.dto.ResponseRecord;
 import com.training.ats.services.JobService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,22 +28,22 @@ public class JobController implements GenericControllerInterface<JobRecord, Long
     }
 
     @Override
-    public void deleteById(Long id) {
-
+    public ResponseEntity<ResponseRecord> deleteById(Long id) {
+        return null;
     }
 
     @Override
-    public void deleteAll() {
-
+    public ResponseEntity<ResponseRecord> deleteAll() {
+        return null;
     }
 
     @Override
-    public void update(JobRecord object, Long id) {
-
+    public ResponseEntity<ResponseRecord> update(JobRecord object, Long id) {
+        return null;
     }
 
     @Override
-    public void save(JobRecord object) {
-
+    public ResponseEntity<ResponseRecord> save(JobRecord object) {
+        return null;
     }
 }

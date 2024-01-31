@@ -1,6 +1,7 @@
 package com.training.ats.controllers;
 
 import com.training.ats.dto.ApplicationRecord;
+import com.training.ats.dto.ResponseRecord;
 import com.training.ats.services.ApplicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,22 +28,22 @@ public class ApplicationController implements GenericControllerInterface<Applica
     }
 
     @Override
-    public void deleteById(Long id) {
-
+    public ResponseEntity<ResponseRecord> deleteById(Long id) {
+        return null;
     }
 
     @Override
-    public void deleteAll() {
-
+    public ResponseEntity<ResponseRecord> deleteAll() {
+        return null;
     }
 
     @Override
-    public void update(ApplicationRecord object, Long id) {
-
+    public ResponseEntity<ResponseRecord> update(ApplicationRecord object, Long id) {
+        return null;
     }
 
     @Override
-    public void save(ApplicationRecord object) {
-
+    public ResponseEntity<ResponseRecord> save(ApplicationRecord object) {
+        return null;
     }
 }

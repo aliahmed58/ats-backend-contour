@@ -1,5 +1,6 @@
 package com.training.ats.services;
 
+import com.training.ats.dto.ResponseRecord;
 import com.training.ats.repositories.ApplicationRepository;
 import com.training.ats.dto.ApplicationRecord;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,22 +25,22 @@ public class ApplicationService implements GenericServiceInterface<ApplicationRe
     }
 
     @Override
-    public void deleteById(Long id) {
-
+    public ResponseRecord deleteById(Long id) {
+        return  null;
     }
 
     @Override
-    public void deleteAll() {
-
+    public ResponseRecord deleteAll() {
+        return  null;
     }
 
     @Override
-    public void update(ApplicationRecord object, Long id) {
-
+    public ResponseRecord update(ApplicationRecord object, Long id) {
+        return  null;
     }
 
     @Override
-    public void save(ApplicationRecord object) {
-
+    public ResponseRecord save(ApplicationRecord object) {
+        return  null;
     }
 }
