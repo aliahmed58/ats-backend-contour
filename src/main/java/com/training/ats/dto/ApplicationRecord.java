@@ -8,7 +8,7 @@ import java.time.LocalDate;
 /**
  * record object to send application data for users
  */
-public record ApplicationRecord(
+public record ApplicantRecord(
         Long applicationId,
         LocalDate dateOfApply,
         String description,

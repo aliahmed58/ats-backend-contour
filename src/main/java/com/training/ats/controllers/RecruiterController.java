@@ -27,31 +27,31 @@ public class RecruiterController implements GenericControllerInterface<Recruiter
 
     @Override
     public ResponseEntity<List<RecruiterRecord>> getAll() {
-        return null;
+        return ResponseEntity.ok(recruiterService.getAll());
     }
 
     @Override
-    public ResponseEntity<RecruiterRecord> getById(String id) {
-        return null;
+    public ResponseEntity<RecruiterRecord> getById(@PathVariable String id) {
+        return ResponseEntity.ok(recruiterService.getById(id));
     }
 
     @Override
-    public ResponseEntity<ResponseRecord> deleteById(String id) {
-        return null;
+    public ResponseEntity<ResponseRecord> deleteById(@PathVariable String id) {
+        return ResponseEntity.ok(recruiterService.deleteById(id));
     }
 
     @Override
     public ResponseEntity<ResponseRecord> deleteAll() {
-        return null;
+        return ResponseEntity.ok(recruiterService.deleteAll());
     }
 
     @Override
-    public ResponseEntity<ResponseRecord> update(RecruiterRecord object, String id) {
-        return null;
+    public ResponseEntity<ResponseRecord> update(@RequestBody @Valid RecruiterRecord object, @PathVariable String id) {
+        return ResponseEntity.ok(recruiterService.update(object, id));
     }
 
     @Override
-    public ResponseEntity<ResponseRecord> save(RecruiterRecord object) {
-        return null;
+    public ResponseEntity<ResponseRecord> save(@RequestBody @Valid RecruiterRecord object) {
+        return ResponseEntity.ok(recruiterService.save(object));
     }
 }

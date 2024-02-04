@@ -1,51 +1,50 @@
 package com.training.ats.services;
 
-import com.training.ats.models.Application;
-import com.training.ats.models.AtsUser;
-import com.training.ats.models.Job;
-import com.training.ats.repositories.ApplicationRepository;
-import com.training.ats.repositories.JobRepository;
+import com.training.ats.dto.ResponseRecord;
+import com.training.ats.repositories.AtsUserRepository;
 import com.training.ats.dto.ApplicantRecord;
 import com.training.ats.dto.ApplicationRecord;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * service for applicants containing all the business logic that will be used in the controller
  */
 @Service
-public class ApplicantService {
+public class ApplicantService implements GenericServiceInterface<ApplicantRecord, String> {
+
 
   @Autowired
-  private JobRepository jobRepository;
-
-  @Autowired
-  private ApplicationRepository applicationRepository;
-
-  public ApplicantRecord getApplicantProfile() {
-    // get user from authentication context
-    AtsUser user = (AtsUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-      // return record type, do not expose the actual user object
-      List<Application> applications = applicationRepository.findByApplicant(user);
-      // map to record objects using stream
-      List<ApplicationRecord> applicationRecords = applications
-              .stream()
-              .map(application ->
-                new ApplicationRecord(
-                        application.getApplicationId(), application.getDateOfApply(),
-                        application.getDescription(), application.getApplicationStatus(),
-                        application.getJob()
-                ))
-              .collect(Collectors.toList());
-      return new ApplicantRecord(user.getFirstName(), user.getLastName(), user.getUsername(), applicationRecords);
-    }
-
-  public List<Job> getAllJobs() {
-    return jobRepository.findAll();
+  private AtsUserRepository applicantRepository;
+  @Override
+  public List<ApplicantRecord> getAll() {
+    return null;
   }
 
+  @Override
+  public ApplicantRecord getById(String id) {
+    return null;
+  }
+
+  @Override
+  public ResponseRecord deleteById(String id) {
+    return null;
+  }
+
+  @Override
+  public ResponseRecord deleteAll() {
+    return null;
+  }
+
+  @Override
+  public ResponseRecord update(ApplicantRecord object, String id) {
+    return null;
+  }
+
+  @Override
+  public ResponseRecord save(ApplicantRecord object) {
+    return null;
+  }
 }
