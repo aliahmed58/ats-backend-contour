@@ -1,6 +1,6 @@
 package com.training.ats.controllers;
 
-import com.training.ats.dto.ApplicantRecord;
+import com.training.ats.dto.ApplicationRecord;
 import com.training.ats.dto.ResponseRecord;
 import com.training.ats.services.ApplicantService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,16 +16,16 @@ import java.util.List;
 @RestController
 @RequestMapping("/applicant")
 @Secured("ROLE_APPLICANT")
-public class ApplicantController implements GenericControllerInterface<ApplicantRecord, String> {
+public class ApplicantController implements GenericControllerInterface<ApplicationRecord, String> {
   @Autowired
   private ApplicantService applicantService;
   @Override
-  public ResponseEntity<List<ApplicantRecord>> getAll() {
+  public ResponseEntity<List<ApplicationRecord>> getAll() {
     return ResponseEntity.ok(applicantService.getAll());
   }
 
   @Override
-  public ResponseEntity<ApplicantRecord> getById(@PathVariable String id) {
+  public ResponseEntity<ApplicationRecord> getById(@PathVariable String id) {
     return ResponseEntity.ok(applicantService.getById(id));
   }
 
@@ -40,12 +40,12 @@ public class ApplicantController implements GenericControllerInterface<Applicant
   }
 
   @Override
-  public ResponseEntity<ResponseRecord> update(@RequestBody ApplicantRecord object, @PathVariable String id) {
+  public ResponseEntity<ResponseRecord> update(@RequestBody ApplicationRecord object, @PathVariable String id) {
     return ResponseEntity.ok(applicantService.update(object, id));
   }
 
   @Override
-  public ResponseEntity<ResponseRecord> save(@RequestBody ApplicantRecord object) {
+  public ResponseEntity<ResponseRecord> save(@RequestBody ApplicationRecord object) {
     return ResponseEntity.ok(applicantService.save(object));
   }
 }
