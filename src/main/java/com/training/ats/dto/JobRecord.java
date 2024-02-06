@@ -14,6 +14,8 @@ public record JobRecord(
         String jobDesc,
 
         @NotNull(message = "job type id cannot be null")
-        Long jobTypeId
+        Long jobTypeId,
+
+        JobTypeRecord jobTypeRecord
 ) {
 }
