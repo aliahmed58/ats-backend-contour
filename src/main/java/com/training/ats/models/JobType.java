@@ -4,8 +4,10 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.domain.Persistable;
 
 import java.util.Objects;
 
@@ -16,7 +18,8 @@ import java.util.Objects;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class JobType {
+@Builder
+public class JobType implements Persistable<Long> {
 
   @Id
   @GeneratedValue
@@ -31,4 +34,13 @@ public class JobType {
   @JoinColumn(name = "level_id", nullable = false)
   private Level jobLevel;
 
+  @Override
+  public Long getId() {
+    return this.jobTypeId;
+  }
+
+  @Override
+  public boolean isNew() {
+    return this.jobTypeId == null;
+  }
 }
