@@ -16,6 +16,9 @@ public record JobRecord(
         @NotNull(message = "job type id cannot be null")
         Long jobTypeId,
 
+        @NotNull(message = "job level id cannot be null")
+        Long jobLevelId,
+
         JobTypeRecord jobTypeRecord
 ) {
 }

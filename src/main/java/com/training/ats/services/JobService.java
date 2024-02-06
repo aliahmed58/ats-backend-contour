@@ -31,6 +31,7 @@ public class JobService implements GenericServiceInterface<JobRecord, Long> {
                         job.getJobName(),
                         job.getJobDescription(),
                         job.getJobType().getJobTypeId(),
+                        job.getJobType().getJobLevel().getLevelId(),
                         new JobTypeRecord(job.getJobType().getType(), job.getJobType().getJobLevel().getLevelId())))
                 .collect(Collectors.toList());
     }
@@ -45,6 +46,7 @@ public class JobService implements GenericServiceInterface<JobRecord, Long> {
                 getJob.getJobName(),
                 getJob.getJobDescription(),
                 getJob.getJobType().getJobTypeId(),
+                getJob.getJobType().getJobLevel().getLevelId(),
                 new JobTypeRecord(getJob.getJobType().getType(), getJob.getJobType().getJobLevel().getLevelId())
         );
     }
@@ -65,8 +67,7 @@ public class JobService implements GenericServiceInterface<JobRecord, Long> {
     public ResponseRecord update(JobRecord object, Long id) {
         JobType jobType = JobType.builder()
                 .jobTypeId(object.jobTypeId())
-                .type(object.jobTypeRecord().type())
-                .jobLevel(new Level(object.jobTypeRecord().jobLevel(), null))
+                .jobLevel(new Level(object.jobLevelId(), null))
                 .build();
 
         jobRepository.save(
@@ -85,8 +86,7 @@ public class JobService implements GenericServiceInterface<JobRecord, Long> {
     public ResponseRecord save(JobRecord object) {
         JobType jobType = JobType.builder()
                 .jobTypeId(object.jobTypeId())
-                .type(object.jobTypeRecord().type())
-                .jobLevel(new Level(object.jobTypeRecord().jobLevel(), null))
+                .jobLevel(new Level(object.jobLevelId(), null))
                 .build();
 
         jobRepository.save(

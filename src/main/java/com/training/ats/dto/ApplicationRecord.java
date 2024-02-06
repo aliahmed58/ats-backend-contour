@@ -12,6 +12,7 @@ public record ApplicationRecord(
         Long applicationId,
         LocalDate dateOfApply,
         String description,
-        Status applicationStatus,
-        Job job
+        Long statusId,
+        Long jobId,
+        String applicantId
 ) {}
