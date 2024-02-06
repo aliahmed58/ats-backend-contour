@@ -28,6 +28,7 @@ import java.util.List;
 @Table(name = "users")
 public class AtsUser implements UserDetails {
 
+  @Transient
   private final String ROLE_PREFIX = "ROLE_";
   // the primary key will be the String username
   @Id

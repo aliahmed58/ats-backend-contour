@@ -1,8 +1,7 @@
 package com.training.ats.controllers;
 
-import com.training.ats.dto.AddJobRecord;
-import com.training.ats.dto.RecruiterRecord;
 import com.training.ats.dto.ResponseRecord;
+import com.training.ats.dto.AtsUserRecord;
 import com.training.ats.services.RecruiterService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,19 +18,19 @@ import java.util.List;
 @RestController
 @RequestMapping("/recruiter")
 @Secured("ROLE_RECRUITER")
-public class RecruiterController implements GenericControllerInterface<RecruiterRecord, String> {
+public class RecruiterController implements GenericControllerInterface<AtsUserRecord, String> {
 
     @Autowired
     private RecruiterService recruiterService;
 
 
     @Override
-    public ResponseEntity<List<RecruiterRecord>> getAll() {
+    public ResponseEntity<List<AtsUserRecord>> getAll() {
         return ResponseEntity.ok(recruiterService.getAll());
     }
 
     @Override
-    public ResponseEntity<RecruiterRecord> getById(@PathVariable String id) {
+    public ResponseEntity<AtsUserRecord> getById(@PathVariable String id) {
         return ResponseEntity.ok(recruiterService.getById(id));
     }
 
@@ -46,12 +45,12 @@ public class RecruiterController implements GenericControllerInterface<Recruiter
     }
 
     @Override
-    public ResponseEntity<ResponseRecord> update(@RequestBody @Valid RecruiterRecord object, @PathVariable String id) {
+    public ResponseEntity<ResponseRecord> update(@RequestBody @Valid AtsUserRecord object, @PathVariable String id) {
         return ResponseEntity.ok(recruiterService.update(object, id));
     }
 
     @Override
-    public ResponseEntity<ResponseRecord> save(@RequestBody @Valid RecruiterRecord object) {
+    public ResponseEntity<ResponseRecord> save(@RequestBody @Valid AtsUserRecord object) {
         return ResponseEntity.ok(recruiterService.save(object));
     }
 }

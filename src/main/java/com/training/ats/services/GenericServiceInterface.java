@@ -1,9 +1,9 @@
 package com.training.ats.services;
 
 import com.training.ats.dto.ResponseRecord;
+import jakarta.transaction.Transactional;
 
 import java.util.List;
-
 public interface GenericServiceInterface<T, K> {
     /**
      * get all records of a

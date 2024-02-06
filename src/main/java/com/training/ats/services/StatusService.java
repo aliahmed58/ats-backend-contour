@@ -5,6 +5,7 @@ import com.training.ats.dto.StatusRecord;
 import com.training.ats.models.Status;
 import com.training.ats.repositories.StatusRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import jdk.javadoc.doclet.Reporter;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
