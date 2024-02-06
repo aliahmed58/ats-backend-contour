@@ -8,8 +8,10 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.domain.Persistable;
 
 import java.util.Objects;
 
@@ -20,12 +22,23 @@ import java.util.Objects;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class Status {
+@Builder
+public class Status implements Persistable<Long> {
   @Id
   @GeneratedValue
-  private long statusId;
+  private Long statusId;
 
   @NotNull(message = "Status cannot be null")
   @NotBlank(message = "Status cannot be blank")
   private String statusType;
+
+  @Override
+  public Long getId() {
+    return this.statusId;
+  }
+
+  @Override
+  public boolean isNew() {
+    return this.statusId == null;
+  }
 }
