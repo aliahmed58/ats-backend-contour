@@ -30,8 +30,7 @@ public class ApplicationService implements GenericServiceInterface<ApplicationRe
     public List<ApplicationRecord> getAll() {
         return applicationRepository.findAll()
                 .stream()
-                .map(app -> new ApplicationRecord(
-                        app.getApplicationId(), app.getDateOfApply(), app.getDescription(),
+                .map(app -> new ApplicationRecord( app.getDateOfApply(), app.getDescription(),
                         app.getApplicationStatus().getStatusId(), app.getJob().getJobId(),
                         app.getApplicant().getUsername()
                 ))
@@ -50,8 +49,7 @@ public class ApplicationService implements GenericServiceInterface<ApplicationRe
         if (!user.getUsername().equals(a.getApplicant().getUsername())) {
             throw new EntityNotFoundException("Application not found");
         }
-        return new ApplicationRecord(
-                a.getApplicationId(), a.getDateOfApply(), a.getDescription(),
+        return new ApplicationRecord( a.getDateOfApply(), a.getDescription(),
                 a.getApplicationStatus().getStatusId(), a.getJob().getJobId(),
                 a.getApplicant().getUsername()
         );
@@ -80,6 +78,8 @@ public class ApplicationService implements GenericServiceInterface<ApplicationRe
             return new ResponseRecord(HttpStatus.UNAUTHORIZED.value(), "Unauthorized update");
         }
 
+        // update with username fetched from authenticated user object so other users cannot change
+        // the application of anyone other than themselves
         applicationRepository.updateWhereApplicant(
                 object, user.getUsername(), id);
         return new ResponseRecord(HttpStatus.OK.value(), "Application updated");
