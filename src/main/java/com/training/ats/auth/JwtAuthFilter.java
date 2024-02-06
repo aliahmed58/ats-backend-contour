@@ -2,6 +2,7 @@ package com.training.ats.auth;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Optional;
 
 /**
  * a component that extends from the OncePerRequestFilter basically applying a Filter only once
@@ -40,16 +43,23 @@ public class JwtAuthFilter extends OncePerRequestFilter {
       @NonNull HttpServletResponse response,
       @NonNull FilterChain filterChain
   ) throws ServletException, IOException {
-    // get the jwt token from the request header
-    final String authHeader = request.getHeader("Authorization");
-    // filter and return if jwt not found
-    if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+
+    if (request.getRequestURI().contains("register") || request.getRequestURI().contains("authenticate")) {
       filterChain.doFilter(request, response);
       return;
     }
-    // get jwt after Bearer
-    final String jwt = authHeader.split(" ")[1];
-
+    if (request.getCookies() == null) {
+      filterChain.doFilter(request, response);
+      return;
+    }
+    // get the cookie from http only cookie
+    // find the cookie from cookies using stream
+    Optional<Cookie> cookie = Arrays.stream(request.getCookies()).filter(m -> m.getName().equals("jwt")).findFirst();
+    if (cookie.isEmpty()) {
+      filterChain.doFilter(request, response);
+      return;
+    }
+    String jwt = cookie.get().getValue();
     // get username from jwt token
     String username = jwtService.extractUsername(jwt);
 

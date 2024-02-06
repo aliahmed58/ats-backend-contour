@@ -7,6 +7,8 @@ import com.training.ats.auth.RegisterRequest;
 import com.training.ats.models.AtsUser;
 import com.training.ats.models.RoleType;
 import com.training.ats.repositories.AtsUserRepository;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -36,7 +38,7 @@ public class AuthService {
      * @param registerRequest register request body
      * @return jwt token string
      */
-    public AuthResponse registerUser(RegisterRequest registerRequest) throws AuthenticationException {
+    public AuthResponse registerUser(RegisterRequest registerRequest, HttpServletResponse response) throws AuthenticationException {
         // check if user already exists or not
         if (userRepository.findById(registerRequest.username()).isPresent()) {
             throw new AuthenticationException("User already exists");
@@ -57,10 +59,16 @@ public class AuthService {
         // persist user in database
         userRepository.save(user);
         // generate jwt token
-        return new AuthResponse(jwtService.generateJwt(user));
+        String jwt = jwtService.generateJwt(user);
+        Cookie c = new Cookie("jwt", jwt);
+        c.setHttpOnly(true);
+        c.setDomain("localhost:5500");
+        c.setPath("/");
+        response.addCookie(c);
+        return new AuthResponse(jwt);
     }
 
-    public AuthResponse authenticateUser(AuthRequest request) {
+    public AuthResponse authenticateUser(AuthRequest request, HttpServletResponse response) {
         // authenticate the user using the authentication manager
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 request.username(),
@@ -71,6 +79,10 @@ public class AuthService {
         AtsUser user = userRepository.findById(request.username())
                 .orElseThrow(() -> new UsernameNotFoundException("user not found"));
 
-        return new AuthResponse(jwtService.generateJwt(user));
+        String jwt = jwtService.generateJwt(user);
+        Cookie jwtCookie = new Cookie("jwt", jwt);
+        jwtCookie.setHttpOnly(true);
+        response.addCookie(jwtCookie);
+        return new AuthResponse(jwt);
     }
 }
