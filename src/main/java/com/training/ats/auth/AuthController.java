@@ -10,10 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.naming.AuthenticationException;
 
@@ -44,6 +41,12 @@ public class AuthController {
     @PostMapping("/authenticate")
     public ResponseEntity<AuthResponse> authenticateUser(@RequestBody @Valid AuthRequest authRequest, HttpServletResponse response) {
         return ResponseEntity.ok(authService.authenticateUser(authRequest, response));
+    }
+
+    @GetMapping("/refresh")
+    public ResponseEntity<AuthResponse> refreshToken(HttpServletRequest request,
+                                                     HttpServletResponse response) throws AuthenticationException {
+        return ResponseEntity.ok(authService.refreshToken(request, response));
     }
 
 }

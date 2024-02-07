@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class ApplicationService implements GenericServiceInterface<ApplicationRecord, Long> {
-
+    private static final String LOGGER = "Application Logger";
     @Autowired
     private ApplicationRepository applicationRepository;
 
@@ -41,7 +41,7 @@ public class ApplicationService implements GenericServiceInterface<ApplicationRe
     public ApplicationRecord get(Long id) {
         Optional<Application> application = applicationRepository.findById(id);
         if (application.isEmpty()) {
-            throw new EntityNotFoundException("Application not found");
+                throw new EntityNotFoundException("Application not found");
         }
         Application a = application.get();
         // only return if the application is of the authenticated user

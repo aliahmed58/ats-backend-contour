@@ -8,15 +8,19 @@ import com.training.ats.models.AtsUser;
 import com.training.ats.models.RoleType;
 import com.training.ats.repositories.AtsUserRepository;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.naming.AuthenticationException;
+import java.util.Arrays;
+import java.util.Optional;
 
 /**
  * service module responsible for the business logic of authenticating users
@@ -88,5 +92,32 @@ public class AuthService {
         jwtCookie.setPath("/");
         response.addCookie(jwtCookie);
         return new AuthResponse(accessToken);
+    }
+
+    public AuthResponse refreshToken(HttpServletRequest request,
+                                     HttpServletResponse response) throws AuthenticationException {
+        // get cookies
+        if (request.getCookies() == null) {
+            throw new AuthenticationException("Unauthorized access");
+        }
+        Optional<Cookie> refreshTokenCookie = Arrays.stream(request.getCookies())
+                .filter(c -> c.getName().equals("jwt"))
+                .findAny();
+        if (refreshTokenCookie.isEmpty()) {
+            throw new AuthenticationException("Unauthorized access");
+        }
+        Cookie cookie = refreshTokenCookie.get();
+        String refreshToken = cookie.getValue();
+        String username = jwtService.extractUsername(refreshToken);
+        // get user from database, create token and return
+        AtsUser user = userRepository.findById(username)
+                .orElseThrow(() -> new UsernameNotFoundException("user not found"));
+        if (jwtService.isJwtValid(refreshToken, user)) {
+            String accessToken = jwtService.generateJwt(user);
+            return new AuthResponse(accessToken);
+        }
+        else {
+            throw new AuthenticationException("Unauthorized access");
+        }
     }
 }
