@@ -14,38 +14,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/jobs")
-public class JobController implements GenericControllerInterface<JobRecord, Long> {
+public class JobController extends BaseController<JobRecord, Long> {
 
-    @Autowired
-    private JobService jobService;
-
-    @Override
-    public ResponseEntity<List<JobRecord>> get() {
-        return ResponseEntity.ok(jobService.get());
-    }
-
-    @Override
-    public ResponseEntity<JobRecord> get(@PathVariable Long id) {
-        return ResponseEntity.ok(jobService.get(id));
-    }
-
-    @Override
-    public ResponseEntity<ResponseRecord> delete(@PathVariable Long id) {
-        return ResponseEntity.ok(jobService.delete(id));
-    }
-
-    @Override
-    public ResponseEntity<ResponseRecord> delete() {
-        return ResponseEntity.ok(jobService.delete());
-    }
-
-    @Override
-    public ResponseEntity<ResponseRecord> post(@RequestBody JobRecord object, @PathVariable Long id) {
-        return ResponseEntity.ok(jobService.post(object, id));
-    }
-
-    @Override
-    public ResponseEntity<ResponseRecord> put(@RequestBody JobRecord object) {
-        return ResponseEntity.ok(jobService.put(object));
+    public JobController(JobService service) {
+        this.service = service;
     }
 }

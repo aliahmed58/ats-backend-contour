@@ -17,36 +17,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/status")
 @Secured("ROLE_RECRUITER")
-public class StatusController implements GenericControllerInterface<StatusRecord, Long> {
-    @Autowired
-    private StatusService statusService;
-    @Override
-    public ResponseEntity<List<StatusRecord>> get() {
-        return ResponseEntity.ok(statusService.get());
-    }
-
-    @Override
-    public ResponseEntity<StatusRecord> get(@PathVariable Long id) {
-        return ResponseEntity.ok(statusService.get(id));
-    }
-
-    @Override
-    public ResponseEntity<ResponseRecord> delete(@PathVariable Long id) {
-        return ResponseEntity.ok(statusService.delete(id));
-    }
-
-    @Override
-    public ResponseEntity<ResponseRecord> delete() {
-        return ResponseEntity.ok(statusService.delete());
-    }
-
-    @Override
-    public ResponseEntity<ResponseRecord> post(@RequestBody @Valid StatusRecord object, @PathVariable Long id) {
-        return ResponseEntity.ok(statusService.post(object, id));
-    }
-
-    @Override
-    public ResponseEntity<ResponseRecord> put(@RequestBody @Valid StatusRecord object) {
-        return ResponseEntity.ok(statusService.put(object));
-    }
+public class StatusController extends BaseController<StatusRecord, Long> {
+   public StatusController(StatusService service) {
+        this.service = service;
+   }
 }
