@@ -4,6 +4,8 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * util service to manipulate and use JWTs for example extracting username
@@ -49,11 +52,19 @@ public class JwtService {
 
   /**
    * Generate a token for the given user details
+   *
    * @param userDetails user details object for the user
    * @return json web token
    */
   public String generateJwt(UserDetails userDetails) {
-    return generateJwt(new HashMap<>(), userDetails);
+    Map<String, Object> claims = userDetails.getAuthorities()
+            .stream()
+            .collect(Collectors.toMap(GrantedAuthority::getAuthority, s -> true));
+    return generateJwt(claims, userDetails);
+  }
+
+  public String generateRefreshJwt(UserDetails userDetails) {
+    return generateRefreshJwt(new HashMap<>(), userDetails);
   }
 
   /**
@@ -68,9 +79,20 @@ public class JwtService {
         .claims(extraClaims)
         .subject(userDetails.getUsername())
         .issuedAt(new Date(System.currentTimeMillis()))
-        .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
+        .expiration(new Date(System.currentTimeMillis() + 86400000)) // 1 day
         .signWith(getVerifyKey())
         .compact();
+  }
+
+  public String generateRefreshJwt(Map<String, Object> extraClaims, UserDetails userDetails) {
+    return Jwts
+            .builder()
+            .claims(extraClaims)
+            .subject(userDetails.getUsername())
+            .issuedAt(new Date(System.currentTimeMillis()))
+            .expiration(new Date(System.currentTimeMillis() + 604800000)) // 7 days
+            .signWith(getVerifyKey())
+            .compact();
   }
 
   /**

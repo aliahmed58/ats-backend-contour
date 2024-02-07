@@ -59,14 +59,15 @@ public class AuthService {
         // persist user in database
         userRepository.save(user);
         // generate jwt token
-        String jwt = jwtService.generateJwt(user);
-        Cookie c = new Cookie("jwt", jwt);
+        String accessToken = jwtService.generateJwt(user);
+        String refreshToken = jwtService.generateRefreshJwt(user);
+        Cookie c = new Cookie("jwt", refreshToken);
         c.setHttpOnly(true);
         c.setPath("/");
         Cookie userCookie = new Cookie("user", user.getUsername());
         response.addCookie(userCookie);
         response.addCookie(c);
-        return new AuthResponse(jwt);
+        return new AuthResponse(accessToken);
     }
 
     public AuthResponse authenticateUser(AuthRequest request, HttpServletResponse response) {
@@ -80,11 +81,12 @@ public class AuthService {
         AtsUser user = userRepository.findById(request.username())
                 .orElseThrow(() -> new UsernameNotFoundException("user not found"));
 
-        String jwt = jwtService.generateJwt(user);
-        Cookie jwtCookie = new Cookie("jwt", jwt);
+        String accessToken = jwtService.generateJwt(user);
+        String refreshToken = jwtService.generateRefreshJwt(user);
+        Cookie jwtCookie = new Cookie("jwt", refreshToken);
         jwtCookie.setHttpOnly(true);
         jwtCookie.setPath("/");
         response.addCookie(jwtCookie);
-        return new AuthResponse(jwt);
+        return new AuthResponse(accessToken);
     }
 }

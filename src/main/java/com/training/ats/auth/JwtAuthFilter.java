@@ -23,6 +23,9 @@ import java.util.Optional;
  * a component that extends from the OncePerRequestFilter basically applying a Filter only once
  * to any server request made, in this we can access the request body, modify the response
  * sort of equivalent to express middlewares
+ * 1. user tries to access with the access_token in bearer auth
+ * 2. if the access_token is valid, grant access
+ * 3. if the access_token is invalid, block access, re grant access token through refresh token api
  */
 @Component
 public class JwtAuthFilter extends OncePerRequestFilter {
@@ -44,22 +47,17 @@ public class JwtAuthFilter extends OncePerRequestFilter {
       @NonNull FilterChain filterChain
   ) throws ServletException, IOException {
 
-    if (request.getRequestURI().contains("register") || request.getRequestURI().contains("authenticate")) {
+    if (request.getRequestURI().contains("/auth/")) {
       filterChain.doFilter(request, response);
       return;
     }
-    if (request.getCookies() == null) {
+    final String authHeader = request.getHeader("Authorization");
+    final String jwt;
+    if (authHeader == null ||!authHeader.startsWith("Bearer ")) {
       filterChain.doFilter(request, response);
       return;
     }
-    // get the cookie from http only cookie
-    // find the cookie from cookies using stream
-    Optional<Cookie> cookie = Arrays.stream(request.getCookies()).filter(m -> m.getName().equals("jwt")).findFirst();
-    if (cookie.isEmpty()) {
-      filterChain.doFilter(request, response);
-      return;
-    }
-    String jwt = cookie.get().getValue();
+    jwt = authHeader.substring(7);
     // get username from jwt token
     String username = jwtService.extractUsername(jwt);
 

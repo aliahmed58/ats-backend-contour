@@ -6,11 +6,11 @@ import jakarta.validation.constraints.NotNull;
 /**
  * record to send a user's basic data as a response
  *
- * @param jwtToken
+ * @param accessToken
  */
 public record AuthResponse(
         @NotNull(message = "jwt token cannot be null")
         @NotBlank(message = "jwt token cannot be blank")
-        String jwtToken
+        String accessToken
 ) {
 }
