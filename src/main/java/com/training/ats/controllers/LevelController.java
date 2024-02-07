@@ -17,38 +17,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/levels")
 @Secured("ROLE_RECRUITER")
-public class LevelController implements GenericControllerInterface<LevelRecord, Long> {
+public class LevelController extends BaseController<LevelRecord, Long> {
 
-    @Autowired
-    private LevelService levelService;
-
-    @Override
-    public ResponseEntity<List<LevelRecord>> get() {
-        return ResponseEntity.ok(levelService.get());
-    }
-
-    @Override
-    public ResponseEntity<LevelRecord> get(@PathVariable Long id) {
-        return ResponseEntity.ok(levelService.get(id));
-    }
-
-    @Override
-    public ResponseEntity<ResponseRecord> delete(@PathVariable Long id) {
-        return ResponseEntity.ok(levelService.delete(id));
-    }
-
-    @Override
-    public ResponseEntity<ResponseRecord> delete() {
-        return ResponseEntity.ok(levelService.delete());
-    }
-
-    @Override
-    public ResponseEntity<ResponseRecord> post(@RequestBody @Valid LevelRecord object, @PathVariable Long id) {
-        return ResponseEntity.ok(levelService.post(object, id));
-    }
-
-    @Override
-    public ResponseEntity<ResponseRecord> put(@RequestBody @Valid LevelRecord object) {
-        return ResponseEntity.ok(levelService.put(object));
+    public LevelController(LevelService service) {
+        this.service = service;
     }
 }
