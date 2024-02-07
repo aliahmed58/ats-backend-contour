@@ -93,7 +93,7 @@ public class ApplicantService implements GenericServiceInterface<AtsUserRecord, 
 
     @Override
     public ResponseRecord put(AtsUserRecord object) {
-        // users are saved thru register api endpoint rather than save method
+        // users are saved through register api endpoint rather than save method
         return null;
     }
 }

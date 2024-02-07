@@ -5,6 +5,9 @@ public enum ErrorType {
     UNAUTHORIZED_OPERATION("Unauthorized operation"),
     ENTITY_UPDATED("Entity updated"),
     ENTITY_DELETED("Entity deleted"),
+    PASS_DO_NOT_MATCH("Passwords do not match"),
+    ENTITY_SAVED("Entity saved"),
+    ENTITY_EXISTS("Entity already exists"),
     ENTITY_DELETED_ALL("All entities deleted");
 
     public final String error;

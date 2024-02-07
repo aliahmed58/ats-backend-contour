@@ -4,6 +4,8 @@ import com.training.ats.auth.AuthRequest;
 import com.training.ats.auth.AuthResponse;
 import com.training.ats.auth.JwtService;
 import com.training.ats.auth.RegisterRequest;
+import com.training.ats.exceptions.ErrorMessageBuilder;
+import com.training.ats.exceptions.ErrorType;
 import com.training.ats.models.AtsUser;
 import com.training.ats.models.RoleType;
 import com.training.ats.repositories.AtsUserRepository;
@@ -29,6 +31,8 @@ import java.util.Optional;
 @Service
 public class AuthService {
 
+    private static final String LOGGER = "Auth service";
+
     @Autowired
     private AtsUserRepository userRepository;
     @Autowired
@@ -45,11 +49,11 @@ public class AuthService {
     public AuthResponse registerUser(RegisterRequest registerRequest, HttpServletResponse response) throws AuthenticationException {
         // check if user already exists or not
         if (userRepository.findById(registerRequest.username()).isPresent()) {
-            throw new AuthenticationException("User already exists");
+            throw new AuthenticationException(ErrorMessageBuilder.getMessage(LOGGER, ErrorType.ENTITY_EXISTS));
         }
         // check if password and confirm passwords match
         if (!registerRequest.password().equals(registerRequest.confirmPassword())) {
-            throw new AuthenticationException("Password and Confirm password do not match");
+            throw new AuthenticationException(ErrorMessageBuilder.getMessage(LOGGER, ErrorType.PASS_DO_NOT_MATCH));
         }
 
         // create a new user object to save in repository
@@ -83,7 +87,7 @@ public class AuthService {
 
         // get user from database, create token and return
         AtsUser user = userRepository.findById(request.username())
-                .orElseThrow(() -> new UsernameNotFoundException("user not found"));
+                .orElseThrow(() -> new UsernameNotFoundException(ErrorMessageBuilder.getMessage(LOGGER, ErrorType.ENTITY_NOT_FOUND)));
 
         String accessToken = jwtService.generateJwt(user);
         String refreshToken = jwtService.generateRefreshJwt(user);
@@ -98,26 +102,26 @@ public class AuthService {
                                      HttpServletResponse response) throws AuthenticationException {
         // get cookies
         if (request.getCookies() == null) {
-            throw new AuthenticationException("Unauthorized access");
+            throw new AuthenticationException(ErrorMessageBuilder.getMessage(LOGGER, ErrorType.UNAUTHORIZED_OPERATION));
         }
         Optional<Cookie> refreshTokenCookie = Arrays.stream(request.getCookies())
                 .filter(c -> c.getName().equals("jwt"))
                 .findAny();
         if (refreshTokenCookie.isEmpty()) {
-            throw new AuthenticationException("Unauthorized access");
+            throw new AuthenticationException(ErrorMessageBuilder.getMessage(LOGGER, ErrorType.UNAUTHORIZED_OPERATION));
         }
         Cookie cookie = refreshTokenCookie.get();
         String refreshToken = cookie.getValue();
         String username = jwtService.extractUsername(refreshToken);
         // get user from database, create token and return
         AtsUser user = userRepository.findById(username)
-                .orElseThrow(() -> new UsernameNotFoundException("user not found"));
+                .orElseThrow(() -> new UsernameNotFoundException(ErrorMessageBuilder.getMessage(LOGGER, ErrorType.ENTITY_NOT_FOUND)));
         if (jwtService.isJwtValid(refreshToken, user)) {
             String accessToken = jwtService.generateJwt(user);
             return new AuthResponse(accessToken);
         }
         else {
-            throw new AuthenticationException("Unauthorized access");
+            throw new AuthenticationException(ErrorMessageBuilder.getMessage(LOGGER, ErrorType.UNAUTHORIZED_OPERATION));
         }
     }
 }

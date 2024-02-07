@@ -2,6 +2,8 @@ package com.training.ats.services;
 
 import com.training.ats.dto.AtsUserRecord;
 import com.training.ats.dto.ResponseRecord;
+import com.training.ats.exceptions.ErrorMessageBuilder;
+import com.training.ats.exceptions.ErrorType;
 import com.training.ats.models.Application;
 import com.training.ats.models.AtsUser;
 import com.training.ats.models.Job;
@@ -41,13 +43,13 @@ public class ApplicationService implements GenericServiceInterface<ApplicationRe
     public ApplicationRecord get(Long id) {
         Optional<Application> application = applicationRepository.findById(id);
         if (application.isEmpty()) {
-                throw new EntityNotFoundException("Application not found");
+                throw new EntityNotFoundException(ErrorMessageBuilder.getMessage(LOGGER, ErrorType.ENTITY_NOT_FOUND));
         }
         Application a = application.get();
         // only return if the application is of the authenticated user
         AtsUser user = (AtsUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (!user.getUsername().equals(a.getApplicant().getUsername())) {
-            throw new EntityNotFoundException("Application not found");
+            throw new EntityNotFoundException(ErrorMessageBuilder.getMessage(LOGGER, ErrorType.ENTITY_NOT_FOUND));
         }
         return new ApplicationRecord( a.getDateOfApply(), a.getDescription(),
                 a.getApplicationStatus().getStatusId(), a.getJob().getJobId(),
@@ -60,13 +62,13 @@ public class ApplicationService implements GenericServiceInterface<ApplicationRe
         // delete only if the application is of us
         AtsUser user = (AtsUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         applicationRepository.deleteByApplicationIdAndApplicant(id, user);
-        return new ResponseRecord(HttpStatus.OK.value(), "Application record deleted");
+        return new ResponseRecord(HttpStatus.OK.value(), ErrorMessageBuilder.getMessage(LOGGER, ErrorType.ENTITY_DELETED));
     }
 
     @Override
     public ResponseRecord delete() {
         applicationRepository.deleteAll();
-        return new ResponseRecord(HttpStatus.OK.value(), "Application records deleted");
+        return new ResponseRecord(HttpStatus.OK.value(), ErrorMessageBuilder.getMessage(LOGGER, ErrorType.ENTITY_DELETED_ALL));
     }
 
     @Override
@@ -75,14 +77,14 @@ public class ApplicationService implements GenericServiceInterface<ApplicationRe
         // only updated if the authenticated user is making a request
         AtsUser user = (AtsUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (!user.getUsername().equals(object.applicantId())) {
-            return new ResponseRecord(HttpStatus.UNAUTHORIZED.value(), "Unauthorized update");
+            return new ResponseRecord(HttpStatus.UNAUTHORIZED.value(), ErrorMessageBuilder.getMessage(LOGGER, ErrorType.UNAUTHORIZED_OPERATION));
         }
 
         // update with username fetched from authenticated user object so other users cannot change
         // the application of anyone other than themselves
         applicationRepository.updateWhereApplicant(
                 object, user.getUsername(), id);
-        return new ResponseRecord(HttpStatus.OK.value(), "Application updated");
+        return new ResponseRecord(HttpStatus.OK.value(), ErrorMessageBuilder.getMessage(LOGGER, ErrorType.ENTITY_UPDATED));
     }
 
     @Override
@@ -91,7 +93,7 @@ public class ApplicationService implements GenericServiceInterface<ApplicationRe
         // only updated if the authenticated user is making a request
         AtsUser user = (AtsUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (!user.getUsername().equals(object.applicantId())) {
-            return new ResponseRecord(HttpStatus.UNAUTHORIZED.value(), "Unauthorized save");
+            return new ResponseRecord(HttpStatus.UNAUTHORIZED.value(), ErrorMessageBuilder.getMessage(LOGGER, ErrorType.UNAUTHORIZED_OPERATION));
         }
 
         applicationRepository.save(
@@ -103,6 +105,6 @@ public class ApplicationService implements GenericServiceInterface<ApplicationRe
                         .applicant(AtsUser.builder().username(object.applicantId()).build())
                         .build()
         );
-        return new ResponseRecord(HttpStatus.OK.value(), "Application Saved");
+        return new ResponseRecord(HttpStatus.OK.value(), ErrorMessageBuilder.getMessage(LOGGER, ErrorType.ENTITY_SAVED));
     }
 }

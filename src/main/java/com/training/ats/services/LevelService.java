@@ -1,6 +1,8 @@
 package com.training.ats.services;
 
 import com.training.ats.dto.ResponseRecord;
+import com.training.ats.exceptions.ErrorMessageBuilder;
+import com.training.ats.exceptions.ErrorType;
 import com.training.ats.models.Level;
 import com.training.ats.repositories.LevelRepository;
 import com.training.ats.dto.LevelRecord;
@@ -19,6 +21,7 @@ import java.util.stream.Collectors;
 @Service
 public class LevelService implements GenericServiceInterface<LevelRecord, Long> {
 
+    private final static String LOGGER = "Level logger";
     @Autowired
     private LevelRepository levelRepository;
 
@@ -36,7 +39,7 @@ public class LevelService implements GenericServiceInterface<LevelRecord, Long> 
     public LevelRecord get(Long id) {
         Optional<Level> level = levelRepository.findById(id);
         if (level.isEmpty())
-            throw new EntityNotFoundException("level not found");
+            throw new EntityNotFoundException(ErrorMessageBuilder.getMessage(LOGGER, ErrorType.ENTITY_NOT_FOUND));
         return new LevelRecord(level.get().getLevel());
     }
 
@@ -44,20 +47,20 @@ public class LevelService implements GenericServiceInterface<LevelRecord, Long> 
     @Override
     public ResponseRecord delete(Long id) {
         levelRepository.deleteById(id);
-        return new ResponseRecord(HttpStatus.OK.value(), "Level deleted");
+        return new ResponseRecord(HttpStatus.OK.value(), ErrorMessageBuilder.getMessage(LOGGER, ErrorType.ENTITY_DELETED));
     }
 
     @Override
     public ResponseRecord delete() {
         levelRepository.deleteAll();
-        return new ResponseRecord(HttpStatus.OK.value(), "All levels deleted");
+        return new ResponseRecord(HttpStatus.OK.value(), ErrorMessageBuilder.getMessage(LOGGER, ErrorType.ENTITY_DELETED_ALL));
     }
 
     @Transactional
     @Override
     public ResponseRecord post(LevelRecord object, Long id) {
         levelRepository.updateLevelById(object.level(), id);
-        return new ResponseRecord(HttpStatus.OK.value(), "Level updated");
+        return new ResponseRecord(HttpStatus.OK.value(), ErrorMessageBuilder.getMessage(LOGGER, ErrorType.ENTITY_UPDATED));
     }
 
     @Override
@@ -65,6 +68,6 @@ public class LevelService implements GenericServiceInterface<LevelRecord, Long> 
         levelRepository.save(
                 Level.builder().level(object.level()).build()
         );
-        return new ResponseRecord(HttpStatus.OK.value(), "Level saved");
+        return new ResponseRecord(HttpStatus.OK.value(), ErrorMessageBuilder.getMessage(LOGGER, ErrorType.ENTITY_SAVED));
     }
 }

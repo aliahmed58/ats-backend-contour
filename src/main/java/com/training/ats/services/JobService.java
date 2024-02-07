@@ -3,6 +3,8 @@ package com.training.ats.services;
 
 import com.training.ats.dto.JobTypeRecord;
 import com.training.ats.dto.ResponseRecord;
+import com.training.ats.exceptions.ErrorMessageBuilder;
+import com.training.ats.exceptions.ErrorType;
 import com.training.ats.models.Job;
 import com.training.ats.models.JobType;
 import com.training.ats.models.Level;
@@ -20,6 +22,7 @@ import java.util.stream.Collectors;
 @Service
 public class JobService implements GenericServiceInterface<JobRecord, Long> {
 
+    private static final String LOGGER = "Job Logger";
     @Autowired
     private JobRepository jobRepository;
 
@@ -40,7 +43,7 @@ public class JobService implements GenericServiceInterface<JobRecord, Long> {
     public JobRecord get(Long id) {
         Optional<Job> job = jobRepository.findById(id);
         if (job.isEmpty())
-            throw new EntityNotFoundException("Job entity not found with id " + id);
+            throw new EntityNotFoundException(ErrorMessageBuilder.getMessage(LOGGER, ErrorType.ENTITY_NOT_FOUND));
         Job getJob = job.get();
         return new JobRecord(
                 getJob.getJobName(),
@@ -54,13 +57,13 @@ public class JobService implements GenericServiceInterface<JobRecord, Long> {
     @Override
     public ResponseRecord delete(Long id) {
         jobRepository.deleteById(id);
-        return new ResponseRecord(HttpStatus.OK.value(), "Job record deleted");
+        return new ResponseRecord(HttpStatus.OK.value(), ErrorMessageBuilder.getMessage(LOGGER, ErrorType.ENTITY_DELETED));
     }
 
     @Override
     public ResponseRecord delete() {
         jobRepository.deleteAll();
-        return new ResponseRecord(HttpStatus.OK.value(), "All jobs deleted");
+        return new ResponseRecord(HttpStatus.OK.value(), ErrorMessageBuilder.getMessage(LOGGER, ErrorType.ENTITY_DELETED_ALL));
     }
 
     @Override
@@ -79,7 +82,7 @@ public class JobService implements GenericServiceInterface<JobRecord, Long> {
                         .build()
         );
 
-        return new ResponseRecord(HttpStatus.OK.value(), "Job updated");
+        return new ResponseRecord(HttpStatus.OK.value(), ErrorMessageBuilder.getMessage(LOGGER, ErrorType.ENTITY_UPDATED));
     }
 
     @Override
@@ -97,6 +100,6 @@ public class JobService implements GenericServiceInterface<JobRecord, Long> {
                         .build()
         );
 
-        return new ResponseRecord(HttpStatus.OK.value(), "Job saved");
+        return new ResponseRecord(HttpStatus.OK.value(), ErrorMessageBuilder.getMessage(LOGGER, ErrorType.ENTITY_SAVED));
     }
 }

@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class RecruiterService implements GenericServiceInterface<AtsUserRecord, String> {
-    
+    private final static String LOGGER = "Recruiter logger";
     @Autowired
     private AtsUserRepository recruiterRepository;
 

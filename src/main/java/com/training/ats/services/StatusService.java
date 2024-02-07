@@ -2,6 +2,8 @@ package com.training.ats.services;
 
 import com.training.ats.dto.ResponseRecord;
 import com.training.ats.dto.StatusRecord;
+import com.training.ats.exceptions.ErrorMessageBuilder;
+import com.training.ats.exceptions.ErrorType;
 import com.training.ats.models.Status;
 import com.training.ats.repositories.StatusRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -18,7 +20,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class StatusService implements GenericServiceInterface<StatusRecord, Long> {
-
+    private final static String LOGGER = "Status logger";
     @Autowired
     private StatusRepository statusRepository;
 
@@ -34,20 +36,20 @@ public class StatusService implements GenericServiceInterface<StatusRecord, Long
     public StatusRecord get(Long id) {
         Optional<Status> status = statusRepository.findById(id);
         if (status.isEmpty())
-            throw new EntityNotFoundException("Status entity not found");
+            throw new EntityNotFoundException(ErrorMessageBuilder.getMessage(LOGGER, ErrorType.ENTITY_NOT_FOUND));
         return new StatusRecord(status.get().getStatusType());
     }
 
     @Override
     public ResponseRecord delete(Long id) {
         statusRepository.deleteById(id);
-        return new ResponseRecord(HttpStatus.OK.value(), "Status deleted");
+        return new ResponseRecord(HttpStatus.OK.value(), ErrorMessageBuilder.getMessage(LOGGER, ErrorType.ENTITY_DELETED));
     }
 
     @Override
     public ResponseRecord delete() {
         statusRepository.deleteAll();
-        return new ResponseRecord(HttpStatus.OK.value(), "All status entities deleted");
+        return new ResponseRecord(HttpStatus.OK.value(), ErrorMessageBuilder.getMessage(LOGGER, ErrorType.ENTITY_DELETED_ALL));
     }
 
     @Override
@@ -58,7 +60,7 @@ public class StatusService implements GenericServiceInterface<StatusRecord, Long
                         .statusType(object.statusType())
                         .build()
         );
-        return new ResponseRecord(HttpStatus.OK.value(), "Status updated");
+        return new ResponseRecord(HttpStatus.OK.value(), ErrorMessageBuilder.getMessage(LOGGER, ErrorType.ENTITY_UPDATED));
     }
 
     @Override
@@ -68,6 +70,6 @@ public class StatusService implements GenericServiceInterface<StatusRecord, Long
                         .statusType(object.statusType())
                         .build()
         );
-        return new ResponseRecord(HttpStatus.OK.value(), "Status saved");
+        return new ResponseRecord(HttpStatus.OK.value(), ErrorMessageBuilder.getMessage(LOGGER, ErrorType.ENTITY_SAVED));
     }
 }

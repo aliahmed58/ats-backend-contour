@@ -1,6 +1,8 @@
 package com.training.ats.services;
 
 import com.training.ats.dto.ResponseRecord;
+import com.training.ats.exceptions.ErrorMessageBuilder;
+import com.training.ats.exceptions.ErrorType;
 import com.training.ats.models.Job;
 import com.training.ats.models.JobType;
 import com.training.ats.models.Level;
@@ -18,6 +20,7 @@ import java.util.stream.Collectors;
 @Service
 public class JobTypeService implements GenericServiceInterface<JobTypeRecord, Long> {
 
+    private static final String LOGGER = "Job type logger";
     @Autowired
     private JobTypeRepository jobTypeRepository;
 
@@ -36,7 +39,7 @@ public class JobTypeService implements GenericServiceInterface<JobTypeRecord, Lo
     public JobTypeRecord get(Long id) {
         Optional<JobType> jobType = jobTypeRepository.findById(id);
         if (jobType.isEmpty())
-            throw new EntityNotFoundException("Job type not found with id " + id);
+            throw new EntityNotFoundException(ErrorMessageBuilder.getMessage(LOGGER, ErrorType.ENTITY_NOT_FOUND));
         return new JobTypeRecord(
                 jobType.get().getType(),
                 jobType.get().getJobLevel().getLevelId()
@@ -46,13 +49,13 @@ public class JobTypeService implements GenericServiceInterface<JobTypeRecord, Lo
     @Override
     public ResponseRecord delete(Long id) {
         jobTypeRepository.deleteById(id);
-        return new ResponseRecord(HttpStatus.OK.value(), "Job Type deleted");
+        return new ResponseRecord(HttpStatus.OK.value(), ErrorMessageBuilder.getMessage(LOGGER, ErrorType.ENTITY_DELETED));
     }
 
     @Override
     public ResponseRecord delete() {
         jobTypeRepository.deleteAll();
-        return new ResponseRecord(HttpStatus.OK.value(), "All job types deleted");
+        return new ResponseRecord(HttpStatus.OK.value(), ErrorMessageBuilder.getMessage(LOGGER, ErrorType.ENTITY_DELETED_ALL));
     }
 
     @Override
@@ -64,7 +67,7 @@ public class JobTypeService implements GenericServiceInterface<JobTypeRecord, Lo
                         .type(object.type())
                         .build()
         );
-        return new ResponseRecord(HttpStatus.OK.value(), "Job Type updated");
+        return new ResponseRecord(HttpStatus.OK.value(), ErrorMessageBuilder.getMessage(LOGGER, ErrorType.ENTITY_UPDATED));
     }
 
     @Override
@@ -77,6 +80,6 @@ public class JobTypeService implements GenericServiceInterface<JobTypeRecord, Lo
                                 .build())
                 .build();
         jobTypeRepository.save(newJobType);
-        return new ResponseRecord(HttpStatus.OK.value(), "Job type saved");
+        return new ResponseRecord(HttpStatus.OK.value(), ErrorMessageBuilder.getMessage(LOGGER, ErrorType.ENTITY_SAVED));
     }
 }
