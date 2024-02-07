@@ -27,7 +27,7 @@ public class ApplicationService implements GenericServiceInterface<ApplicationRe
     private ApplicationRepository applicationRepository;
 
     @Override
-    public List<ApplicationRecord> getAll() {
+    public List<ApplicationRecord> get() {
         return applicationRepository.findAll()
                 .stream()
                 .map(app -> new ApplicationRecord( app.getDateOfApply(), app.getDescription(),
@@ -38,7 +38,7 @@ public class ApplicationService implements GenericServiceInterface<ApplicationRe
     }
 
     @Override
-    public ApplicationRecord getById(Long id) {
+    public ApplicationRecord get(Long id) {
         Optional<Application> application = applicationRepository.findById(id);
         if (application.isEmpty()) {
             throw new EntityNotFoundException("Application not found");
@@ -56,7 +56,7 @@ public class ApplicationService implements GenericServiceInterface<ApplicationRe
     }
 
     @Override
-    public ResponseRecord deleteById(Long id) {
+    public ResponseRecord delete(Long id) {
         // delete only if the application is of us
         AtsUser user = (AtsUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         applicationRepository.deleteByApplicationIdAndApplicant(id, user);
@@ -64,13 +64,13 @@ public class ApplicationService implements GenericServiceInterface<ApplicationRe
     }
 
     @Override
-    public ResponseRecord deleteAll() {
+    public ResponseRecord delete() {
         applicationRepository.deleteAll();
         return new ResponseRecord(HttpStatus.OK.value(), "Application records deleted");
     }
 
     @Override
-    public ResponseRecord update(ApplicationRecord object, Long id) {
+    public ResponseRecord post(ApplicationRecord object, Long id) {
 
         // only updated if the authenticated user is making a request
         AtsUser user = (AtsUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -86,7 +86,7 @@ public class ApplicationService implements GenericServiceInterface<ApplicationRe
     }
 
     @Override
-    public ResponseRecord save(ApplicationRecord object) {
+    public ResponseRecord put(ApplicationRecord object) {
         // only save if authenticated user is saving
         // only updated if the authenticated user is making a request
         AtsUser user = (AtsUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

@@ -29,7 +29,7 @@ public class ApplicantService implements GenericServiceInterface<AtsUserRecord, 
     private AtsUserRepository applicantRepository;
 
     @Override
-    public List<AtsUserRecord> getAll() {
+    public List<AtsUserRecord> get() {
         return applicantRepository.findAllByRoleType(RoleType.APPLICANT)
                 .stream()
                 .map(user -> new AtsUserRecord(user.getFirstName(), user.getLastName(), user.getUsername()))
@@ -37,7 +37,7 @@ public class ApplicantService implements GenericServiceInterface<AtsUserRecord, 
     }
 
     @Override
-    public AtsUserRecord getById(String id) {
+    public AtsUserRecord get(String id) {
         AtsUser user = (AtsUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (!user.getUsername().equals(id)) {
             throw new EntityNotFoundException("Cannot get entity of unauthorized user");
@@ -51,7 +51,7 @@ public class ApplicantService implements GenericServiceInterface<AtsUserRecord, 
     }
 
     @Override
-    public ResponseRecord deleteById(String id) {
+    public ResponseRecord delete(String id) {
         // verify if the delete operation is from the authenticated user
         AtsUser user = (AtsUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (!user.getUsername().equals(id)) {
@@ -62,13 +62,13 @@ public class ApplicantService implements GenericServiceInterface<AtsUserRecord, 
     }
 
     @Override
-    public ResponseRecord deleteAll() {
+    public ResponseRecord delete() {
         applicantRepository.deleteAllByRoleType(RoleType.APPLICANT);
         return new ResponseRecord(HttpStatus.OK.value(), "All applicants deleted");
     }
 
     @Override
-    public ResponseRecord update(AtsUserRecord object, String id) {
+    public ResponseRecord post(AtsUserRecord object, String id) {
         // get current user to get its role type
         AtsUser user = (AtsUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         try {
@@ -90,7 +90,7 @@ public class ApplicantService implements GenericServiceInterface<AtsUserRecord, 
     }
 
     @Override
-    public ResponseRecord save(AtsUserRecord object) {
+    public ResponseRecord put(AtsUserRecord object) {
         // users are saved thru register api endpoint rather than save method
         return null;
     }

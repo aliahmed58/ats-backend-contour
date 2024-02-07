@@ -21,32 +21,32 @@ public class ApplicationController implements GenericControllerInterface<Applica
     private ApplicationService applicationService;
 
     @Override
-    public ResponseEntity<List<ApplicationRecord>> getAll() {
-        return ResponseEntity.ok(applicationService.getAll());
+    public ResponseEntity<List<ApplicationRecord>> get() {
+        return ResponseEntity.ok(applicationService.get());
     }
 
     @Override
-    public ResponseEntity<ApplicationRecord> getById(@PathVariable Long id) {
-        return ResponseEntity.ok(applicationService.getById(id));
+    public ResponseEntity<ApplicationRecord> get(@PathVariable Long id) {
+        return ResponseEntity.ok(applicationService.get(id));
     }
 
     @Override
-    public ResponseEntity<ResponseRecord> deleteById(@PathVariable Long id) {
-        return ResponseEntity.ok(applicationService.deleteById(id));
+    public ResponseEntity<ResponseRecord> delete(@PathVariable Long id) {
+        return ResponseEntity.ok(applicationService.delete(id));
     }
 
     @Override
-    public ResponseEntity<ResponseRecord> deleteAll() {
-        return ResponseEntity.ok(applicationService.deleteAll());
+    public ResponseEntity<ResponseRecord> delete() {
+        return ResponseEntity.ok(applicationService.delete());
     }
 
     @Override
-    public ResponseEntity<ResponseRecord> update(@RequestBody @Valid ApplicationRecord object, @PathVariable  Long id) {
-        return ResponseEntity.ok(applicationService.update(object, id));
+    public ResponseEntity<ResponseRecord> post(@RequestBody @Valid ApplicationRecord object, @PathVariable  Long id) {
+        return ResponseEntity.ok(applicationService.post(object, id));
     }
 
     @Override
-    public ResponseEntity<ResponseRecord> save(@RequestBody @Valid ApplicationRecord object) {
-        return ResponseEntity.ok(applicationService.save(object));
+    public ResponseEntity<ResponseRecord> put(@RequestBody @Valid ApplicationRecord object) {
+        return ResponseEntity.ok(applicationService.put(object));
     }
 }

@@ -23,7 +23,7 @@ public class StatusService implements GenericServiceInterface<StatusRecord, Long
     private StatusRepository statusRepository;
 
     @Override
-    public List<StatusRecord> getAll() {
+    public List<StatusRecord> get() {
         return statusRepository.findAll()
                 .stream()
                 .map(status -> new StatusRecord(status.getStatusType()))
@@ -31,7 +31,7 @@ public class StatusService implements GenericServiceInterface<StatusRecord, Long
     }
 
     @Override
-    public StatusRecord getById(Long id) {
+    public StatusRecord get(Long id) {
         Optional<Status> status = statusRepository.findById(id);
         if (status.isEmpty())
             throw new EntityNotFoundException("Status entity not found");
@@ -39,19 +39,19 @@ public class StatusService implements GenericServiceInterface<StatusRecord, Long
     }
 
     @Override
-    public ResponseRecord deleteById(Long id) {
+    public ResponseRecord delete(Long id) {
         statusRepository.deleteById(id);
         return new ResponseRecord(HttpStatus.OK.value(), "Status deleted");
     }
 
     @Override
-    public ResponseRecord deleteAll() {
+    public ResponseRecord delete() {
         statusRepository.deleteAll();
         return new ResponseRecord(HttpStatus.OK.value(), "All status entities deleted");
     }
 
     @Override
-    public ResponseRecord update(StatusRecord object, Long id) {
+    public ResponseRecord post(StatusRecord object, Long id) {
         statusRepository.save(
                 Status.builder()
                         .statusId(id)
@@ -62,7 +62,7 @@ public class StatusService implements GenericServiceInterface<StatusRecord, Long
     }
 
     @Override
-    public ResponseRecord save(StatusRecord object) {
+    public ResponseRecord put(StatusRecord object) {
         statusRepository.save(
                 Status.builder()
                         .statusType(object.statusType())

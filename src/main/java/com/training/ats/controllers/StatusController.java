@@ -21,32 +21,32 @@ public class StatusController implements GenericControllerInterface<StatusRecord
     @Autowired
     private StatusService statusService;
     @Override
-    public ResponseEntity<List<StatusRecord>> getAll() {
-        return ResponseEntity.ok(statusService.getAll());
+    public ResponseEntity<List<StatusRecord>> get() {
+        return ResponseEntity.ok(statusService.get());
     }
 
     @Override
-    public ResponseEntity<StatusRecord> getById(@PathVariable Long id) {
-        return ResponseEntity.ok(statusService.getById(id));
+    public ResponseEntity<StatusRecord> get(@PathVariable Long id) {
+        return ResponseEntity.ok(statusService.get(id));
     }
 
     @Override
-    public ResponseEntity<ResponseRecord> deleteById(@PathVariable Long id) {
-        return ResponseEntity.ok(statusService.deleteById(id));
+    public ResponseEntity<ResponseRecord> delete(@PathVariable Long id) {
+        return ResponseEntity.ok(statusService.delete(id));
     }
 
     @Override
-    public ResponseEntity<ResponseRecord> deleteAll() {
-        return ResponseEntity.ok(statusService.deleteAll());
+    public ResponseEntity<ResponseRecord> delete() {
+        return ResponseEntity.ok(statusService.delete());
     }
 
     @Override
-    public ResponseEntity<ResponseRecord> update(@RequestBody @Valid StatusRecord object, @PathVariable Long id) {
-        return ResponseEntity.ok(statusService.update(object, id));
+    public ResponseEntity<ResponseRecord> post(@RequestBody @Valid StatusRecord object, @PathVariable Long id) {
+        return ResponseEntity.ok(statusService.post(object, id));
     }
 
     @Override
-    public ResponseEntity<ResponseRecord> save(@RequestBody @Valid StatusRecord object) {
-        return ResponseEntity.ok(statusService.save(object));
+    public ResponseEntity<ResponseRecord> put(@RequestBody @Valid StatusRecord object) {
+        return ResponseEntity.ok(statusService.put(object));
     }
 }

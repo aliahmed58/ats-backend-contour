@@ -25,32 +25,32 @@ public class RecruiterController implements GenericControllerInterface<AtsUserRe
 
 
     @Override
-    public ResponseEntity<List<AtsUserRecord>> getAll() {
-        return ResponseEntity.ok(recruiterService.getAll());
+    public ResponseEntity<List<AtsUserRecord>> get() {
+        return ResponseEntity.ok(recruiterService.get());
     }
 
     @Override
-    public ResponseEntity<AtsUserRecord> getById(@PathVariable String id) {
-        return ResponseEntity.ok(recruiterService.getById(id));
+    public ResponseEntity<AtsUserRecord> get(@PathVariable String id) {
+        return ResponseEntity.ok(recruiterService.get(id));
     }
 
     @Override
-    public ResponseEntity<ResponseRecord> deleteById(@PathVariable String id) {
-        return ResponseEntity.ok(recruiterService.deleteById(id));
+    public ResponseEntity<ResponseRecord> delete(@PathVariable String id) {
+        return ResponseEntity.ok(recruiterService.delete(id));
     }
 
     @Override
-    public ResponseEntity<ResponseRecord> deleteAll() {
-        return ResponseEntity.ok(recruiterService.deleteAll());
+    public ResponseEntity<ResponseRecord> delete() {
+        return ResponseEntity.ok(recruiterService.delete());
     }
 
     @Override
-    public ResponseEntity<ResponseRecord> update(@RequestBody @Valid AtsUserRecord object, @PathVariable String id) {
-        return ResponseEntity.ok(recruiterService.update(object, id));
+    public ResponseEntity<ResponseRecord> post(@RequestBody @Valid AtsUserRecord object, @PathVariable String id) {
+        return ResponseEntity.ok(recruiterService.post(object, id));
     }
 
     @Override
-    public ResponseEntity<ResponseRecord> save(@RequestBody @Valid AtsUserRecord object) {
-        return ResponseEntity.ok(recruiterService.save(object));
+    public ResponseEntity<ResponseRecord> put(@RequestBody @Valid AtsUserRecord object) {
+        return ResponseEntity.ok(recruiterService.put(object));
     }
 }

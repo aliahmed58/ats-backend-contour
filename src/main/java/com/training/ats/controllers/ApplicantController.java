@@ -22,37 +22,37 @@ public class ApplicantController implements GenericControllerInterface<AtsUserRe
 
   @Secured("ROLE_RECRUITER")
   @Override
-  public ResponseEntity<List<AtsUserRecord>> getAll() {
-    return ResponseEntity.ok(applicantService.getAll());
+  public ResponseEntity<List<AtsUserRecord>> get() {
+    return ResponseEntity.ok(applicantService.get());
   }
 
 
   @Secured({"ROLE_APPLICANT", "ROLE_RECRUITER"})
   @Override
-  public ResponseEntity<AtsUserRecord> getById(@PathVariable String id) {
-    return ResponseEntity.ok(applicantService.getById(id));
+  public ResponseEntity<AtsUserRecord> get(@PathVariable String id) {
+    return ResponseEntity.ok(applicantService.get(id));
   }
 
   @Secured("ROLE_APPLICANT")
   @Override
-  public ResponseEntity<ResponseRecord> deleteById(@PathVariable String id) {
-    return ResponseEntity.ok(applicantService.deleteById(id));
+  public ResponseEntity<ResponseRecord> delete(@PathVariable String id) {
+    return ResponseEntity.ok(applicantService.delete(id));
   }
   @Secured("ROLE_RECRUITER")
   @Override
-  public ResponseEntity<ResponseRecord> deleteAll() {
-    return ResponseEntity.ok(applicantService.deleteAll());
+  public ResponseEntity<ResponseRecord> delete() {
+    return ResponseEntity.ok(applicantService.delete());
   }
 
   @Secured("ROLE_APPLICANT")
   @Override
-  public ResponseEntity<ResponseRecord> update(@RequestBody AtsUserRecord object, @PathVariable String id) {
-    return ResponseEntity.ok(applicantService.update(object, id));
+  public ResponseEntity<ResponseRecord> post(@RequestBody AtsUserRecord object, @PathVariable String id) {
+    return ResponseEntity.ok(applicantService.post(object, id));
   }
 
   @Secured("ROLE_APPLICANT")
   @Override
-  public ResponseEntity<ResponseRecord> save(@RequestBody AtsUserRecord object) {
-    return ResponseEntity.ok(applicantService.save(object));
+  public ResponseEntity<ResponseRecord> put(@RequestBody AtsUserRecord object) {
+    return ResponseEntity.ok(applicantService.put(object));
   }
 }

@@ -24,7 +24,7 @@ public class JobService implements GenericServiceInterface<JobRecord, Long> {
     private JobRepository jobRepository;
 
     @Override
-    public List<JobRecord> getAll() {
+    public List<JobRecord> get() {
         return jobRepository.findAll()
                 .stream()
                 .map(job -> new JobRecord(
@@ -37,7 +37,7 @@ public class JobService implements GenericServiceInterface<JobRecord, Long> {
     }
 
     @Override
-    public JobRecord getById(Long id) {
+    public JobRecord get(Long id) {
         Optional<Job> job = jobRepository.findById(id);
         if (job.isEmpty())
             throw new EntityNotFoundException("Job entity not found with id " + id);
@@ -52,19 +52,19 @@ public class JobService implements GenericServiceInterface<JobRecord, Long> {
     }
 
     @Override
-    public ResponseRecord deleteById(Long id) {
+    public ResponseRecord delete(Long id) {
         jobRepository.deleteById(id);
         return new ResponseRecord(HttpStatus.OK.value(), "Job record deleted");
     }
 
     @Override
-    public ResponseRecord deleteAll() {
+    public ResponseRecord delete() {
         jobRepository.deleteAll();
         return new ResponseRecord(HttpStatus.OK.value(), "All jobs deleted");
     }
 
     @Override
-    public ResponseRecord update(JobRecord object, Long id) {
+    public ResponseRecord post(JobRecord object, Long id) {
         JobType jobType = JobType.builder()
                 .jobTypeId(object.jobTypeId())
                 .jobLevel(new Level(object.jobLevelId(), null))
@@ -83,7 +83,7 @@ public class JobService implements GenericServiceInterface<JobRecord, Long> {
     }
 
     @Override
-    public ResponseRecord save(JobRecord object) {
+    public ResponseRecord put(JobRecord object) {
         JobType jobType = JobType.builder()
                 .jobTypeId(object.jobTypeId())
                 .jobLevel(new Level(object.jobLevelId(), null))

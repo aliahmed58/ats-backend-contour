@@ -27,7 +27,7 @@ public class RecruiterService implements GenericServiceInterface<AtsUserRecord, 
     private PasswordEncoder passwordEncoder;
 
     @Override
-    public List<AtsUserRecord> getAll() {
+    public List<AtsUserRecord> get() {
         return recruiterRepository.findAllByRoleType(RoleType.APPLICANT)
                 .stream()
                 .map(user -> new AtsUserRecord(user.getFirstName(), user.getLastName(), user.getUsername()))
@@ -35,7 +35,7 @@ public class RecruiterService implements GenericServiceInterface<AtsUserRecord, 
     }
 
     @Override
-    public AtsUserRecord getById(String id) {
+    public AtsUserRecord get(String id) {
         AtsUser user = (AtsUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (!user.getUsername().equals(id)) {
             throw new EntityNotFoundException("Cannot get entity of unauthorized user");
@@ -49,7 +49,7 @@ public class RecruiterService implements GenericServiceInterface<AtsUserRecord, 
     }
 
     @Override
-    public ResponseRecord deleteById(String id) {
+    public ResponseRecord delete(String id) {
         // verify if the delete operation is from the authenticated user
         AtsUser user = (AtsUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (!user.getUsername().equals(id)) {
@@ -60,13 +60,13 @@ public class RecruiterService implements GenericServiceInterface<AtsUserRecord, 
     }
 
     @Override
-    public ResponseRecord deleteAll() {
+    public ResponseRecord delete() {
         recruiterRepository.deleteAllByRoleType(RoleType.RECRUITER);
         return new ResponseRecord(HttpStatus.OK.value(), "All recruiters deleted");
     }
 
     @Override
-    public ResponseRecord update(AtsUserRecord object, String id) {
+    public ResponseRecord post(AtsUserRecord object, String id) {
         // get current user to get its role type
         AtsUser user = (AtsUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         try {
@@ -88,7 +88,7 @@ public class RecruiterService implements GenericServiceInterface<AtsUserRecord, 
     }
 
     @Override
-    public ResponseRecord save(AtsUserRecord object) {
+    public ResponseRecord put(AtsUserRecord object) {
         // create a new recruiter
         // default password test123
         recruiterRepository.save(

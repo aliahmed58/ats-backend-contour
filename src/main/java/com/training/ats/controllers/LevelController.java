@@ -7,7 +7,6 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,32 +23,32 @@ public class LevelController implements GenericControllerInterface<LevelRecord, 
     private LevelService levelService;
 
     @Override
-    public ResponseEntity<List<LevelRecord>> getAll() {
-        return ResponseEntity.ok(levelService.getAll());
+    public ResponseEntity<List<LevelRecord>> get() {
+        return ResponseEntity.ok(levelService.get());
     }
 
     @Override
-    public ResponseEntity<LevelRecord> getById(@PathVariable Long id) {
-        return ResponseEntity.ok(levelService.getById(id));
+    public ResponseEntity<LevelRecord> get(@PathVariable Long id) {
+        return ResponseEntity.ok(levelService.get(id));
     }
 
     @Override
-    public ResponseEntity<ResponseRecord> deleteById(@PathVariable Long id) {
-        return ResponseEntity.ok(levelService.deleteById(id));
+    public ResponseEntity<ResponseRecord> delete(@PathVariable Long id) {
+        return ResponseEntity.ok(levelService.delete(id));
     }
 
     @Override
-    public ResponseEntity<ResponseRecord> deleteAll() {
-        return ResponseEntity.ok(levelService.deleteAll());
+    public ResponseEntity<ResponseRecord> delete() {
+        return ResponseEntity.ok(levelService.delete());
     }
 
     @Override
-    public ResponseEntity<ResponseRecord> update(@RequestBody @Valid LevelRecord object, @PathVariable Long id) {
-        return ResponseEntity.ok(levelService.update(object, id));
+    public ResponseEntity<ResponseRecord> post(@RequestBody @Valid LevelRecord object, @PathVariable Long id) {
+        return ResponseEntity.ok(levelService.post(object, id));
     }
 
     @Override
-    public ResponseEntity<ResponseRecord> save(@RequestBody @Valid LevelRecord object) {
-        return ResponseEntity.ok(levelService.save(object));
+    public ResponseEntity<ResponseRecord> put(@RequestBody @Valid LevelRecord object) {
+        return ResponseEntity.ok(levelService.put(object));
     }
 }

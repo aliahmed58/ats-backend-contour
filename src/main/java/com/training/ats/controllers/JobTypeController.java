@@ -23,32 +23,32 @@ public class JobTypeController implements GenericControllerInterface<JobTypeReco
     private JobTypeService jobTypeService;
 
     @Override
-    public ResponseEntity<List<JobTypeRecord>> getAll() {
-        return ResponseEntity.ok(jobTypeService.getAll());
+    public ResponseEntity<List<JobTypeRecord>> get() {
+        return ResponseEntity.ok(jobTypeService.get());
     }
 
     @Override
-    public ResponseEntity<JobTypeRecord> getById(@PathVariable Long id) {
-        return ResponseEntity.ok(jobTypeService.getById(id));
+    public ResponseEntity<JobTypeRecord> get(@PathVariable Long id) {
+        return ResponseEntity.ok(jobTypeService.get(id));
     }
 
     @Override
-    public ResponseEntity<ResponseRecord> deleteById(@PathVariable Long id) {
-        return ResponseEntity.ok(jobTypeService.deleteById(id));
+    public ResponseEntity<ResponseRecord> delete(@PathVariable Long id) {
+        return ResponseEntity.ok(jobTypeService.delete(id));
     }
 
     @Override
-    public ResponseEntity<ResponseRecord> deleteAll() {
-        return ResponseEntity.ok(jobTypeService.deleteAll());
+    public ResponseEntity<ResponseRecord> delete() {
+        return ResponseEntity.ok(jobTypeService.delete());
     }
 
     @Override
-    public ResponseEntity<ResponseRecord> update(@RequestBody @Valid JobTypeRecord object, @PathVariable  Long id) {
-        return ResponseEntity.ok(jobTypeService.update(object, id));
+    public ResponseEntity<ResponseRecord> post(@RequestBody @Valid JobTypeRecord object, @PathVariable  Long id) {
+        return ResponseEntity.ok(jobTypeService.post(object, id));
     }
 
     @Override
-    public ResponseEntity<ResponseRecord> save(@RequestBody @Valid JobTypeRecord object) {
-        return ResponseEntity.ok(jobTypeService.save(object));
+    public ResponseEntity<ResponseRecord> put(@RequestBody @Valid JobTypeRecord object) {
+        return ResponseEntity.ok(jobTypeService.put(object));
     }
 }

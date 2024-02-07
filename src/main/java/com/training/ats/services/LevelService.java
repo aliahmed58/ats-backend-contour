@@ -24,7 +24,7 @@ public class LevelService implements GenericServiceInterface<LevelRecord, Long> 
 
     // get output, map to records and return as list
     @Override
-    public List<LevelRecord> getAll() {
+    public List<LevelRecord> get() {
         List<Level> levels = levelRepository.findAll();
         return levels
                 .stream()
@@ -33,7 +33,7 @@ public class LevelService implements GenericServiceInterface<LevelRecord, Long> 
     }
 
     @Override
-    public LevelRecord getById(Long id) {
+    public LevelRecord get(Long id) {
         Optional<Level> level = levelRepository.findById(id);
         if (level.isEmpty())
             throw new EntityNotFoundException("level not found");
@@ -42,26 +42,26 @@ public class LevelService implements GenericServiceInterface<LevelRecord, Long> 
 
 
     @Override
-    public ResponseRecord deleteById(Long id) {
+    public ResponseRecord delete(Long id) {
         levelRepository.deleteById(id);
         return new ResponseRecord(HttpStatus.OK.value(), "Level deleted");
     }
 
     @Override
-    public ResponseRecord deleteAll() {
+    public ResponseRecord delete() {
         levelRepository.deleteAll();
         return new ResponseRecord(HttpStatus.OK.value(), "All levels deleted");
     }
 
     @Transactional
     @Override
-    public ResponseRecord update(LevelRecord object, Long id) {
+    public ResponseRecord post(LevelRecord object, Long id) {
         levelRepository.updateLevelById(object.level(), id);
         return new ResponseRecord(HttpStatus.OK.value(), "Level updated");
     }
 
     @Override
-    public ResponseRecord save(LevelRecord object) {
+    public ResponseRecord put(LevelRecord object) {
         levelRepository.save(
                 Level.builder().level(object.level()).build()
         );

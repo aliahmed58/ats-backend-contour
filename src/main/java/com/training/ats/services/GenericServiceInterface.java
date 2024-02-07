@@ -1,7 +1,6 @@
 package com.training.ats.services;
 
 import com.training.ats.dto.ResponseRecord;
-import jakarta.transaction.Transactional;
 
 import java.util.List;
 public interface GenericServiceInterface<T, K> {
@@ -9,14 +8,14 @@ public interface GenericServiceInterface<T, K> {
      * get all records of a
      * @return list of all records
      */
-    List<T> getAll();
+    List<T> get();
 
     /**
      * get a record by id
      * @param id primary key id
      * @return object T
      */
-    T getById(K id);
+    T get(K id);
 
     /**
      * delete a record by id
@@ -24,14 +23,14 @@ public interface GenericServiceInterface<T, K> {
      * @param id key id
      * @return
      */
-    ResponseRecord deleteById(K id);
+    ResponseRecord delete(K id);
 
     /**
      * delete all records
      *
      * @return
      */
-    ResponseRecord deleteAll();
+    ResponseRecord delete();
 
     /**
      * update a record given id
@@ -39,7 +38,7 @@ public interface GenericServiceInterface<T, K> {
      * @param id primary key
      * @return
      */
-    ResponseRecord update(T object, K id);
+    ResponseRecord post(T object, K id);
 
     /**
      * Save a given object into database
@@ -47,5 +46,5 @@ public interface GenericServiceInterface<T, K> {
      * @param object object to save
      * @return
      */
-    ResponseRecord save(T object);
+    ResponseRecord put(T object);
 }

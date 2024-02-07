@@ -19,7 +19,7 @@ public interface GenericControllerInterface<T, K> {
      * @return list of all records
      */
     @GetMapping("/get")
-    ResponseEntity<List<T>> getAll();
+    ResponseEntity<List<T>> get();
 
     /**
      * get a record by id
@@ -27,7 +27,7 @@ public interface GenericControllerInterface<T, K> {
      * @return object T
      */
     @GetMapping("/get/{id}")
-    ResponseEntity<T> getById(@PathVariable  K id);
+    ResponseEntity<T> get(@PathVariable  K id);
 
     /**
      * update a record given id
@@ -36,7 +36,7 @@ public interface GenericControllerInterface<T, K> {
      * @return
      */
     @PostMapping("/post/{id}")
-    ResponseEntity<ResponseRecord> update(@RequestBody @Valid T object, @PathVariable K id);
+    ResponseEntity<ResponseRecord> post(@RequestBody @Valid T object, @PathVariable K id);
 
     /**
      * Save a given object into database
@@ -45,7 +45,7 @@ public interface GenericControllerInterface<T, K> {
      * @return
      */
     @PostMapping("/put")
-    ResponseEntity<ResponseRecord> save(@RequestBody @Valid T object);
+    ResponseEntity<ResponseRecord> put(@RequestBody @Valid T object);
 
     /**
      * delete a record by id
@@ -54,7 +54,7 @@ public interface GenericControllerInterface<T, K> {
      * @return
      */
     @GetMapping("/delete/{id}")
-    ResponseEntity<ResponseRecord> deleteById(K id);
+    ResponseEntity<ResponseRecord> delete(K id);
 
     /**
      * delete all records
@@ -62,7 +62,7 @@ public interface GenericControllerInterface<T, K> {
      * @return
      */
     @GetMapping("/delete")
-    ResponseEntity<ResponseRecord> deleteAll();
+    ResponseEntity<ResponseRecord> delete();
 
 
 }

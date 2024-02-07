@@ -2,7 +2,6 @@ package com.training.ats.controllers;
 
 import com.training.ats.dto.JobRecord;
 import com.training.ats.dto.ResponseRecord;
-import com.training.ats.models.Job;
 import com.training.ats.services.JobService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,32 +20,32 @@ public class JobController implements GenericControllerInterface<JobRecord, Long
     private JobService jobService;
 
     @Override
-    public ResponseEntity<List<JobRecord>> getAll() {
-        return ResponseEntity.ok(jobService.getAll());
+    public ResponseEntity<List<JobRecord>> get() {
+        return ResponseEntity.ok(jobService.get());
     }
 
     @Override
-    public ResponseEntity<JobRecord> getById(@PathVariable Long id) {
-        return ResponseEntity.ok(jobService.getById(id));
+    public ResponseEntity<JobRecord> get(@PathVariable Long id) {
+        return ResponseEntity.ok(jobService.get(id));
     }
 
     @Override
-    public ResponseEntity<ResponseRecord> deleteById(@PathVariable Long id) {
-        return ResponseEntity.ok(jobService.deleteById(id));
+    public ResponseEntity<ResponseRecord> delete(@PathVariable Long id) {
+        return ResponseEntity.ok(jobService.delete(id));
     }
 
     @Override
-    public ResponseEntity<ResponseRecord> deleteAll() {
-        return ResponseEntity.ok(jobService.deleteAll());
+    public ResponseEntity<ResponseRecord> delete() {
+        return ResponseEntity.ok(jobService.delete());
     }
 
     @Override
-    public ResponseEntity<ResponseRecord> update(@RequestBody JobRecord object, @PathVariable Long id) {
-        return ResponseEntity.ok(jobService.update(object, id));
+    public ResponseEntity<ResponseRecord> post(@RequestBody JobRecord object, @PathVariable Long id) {
+        return ResponseEntity.ok(jobService.post(object, id));
     }
 
     @Override
-    public ResponseEntity<ResponseRecord> save(@RequestBody JobRecord object) {
-        return ResponseEntity.ok(jobService.save(object));
+    public ResponseEntity<ResponseRecord> put(@RequestBody JobRecord object) {
+        return ResponseEntity.ok(jobService.put(object));
     }
 }
