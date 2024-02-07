@@ -83,6 +83,7 @@ public class AuthService {
         String jwt = jwtService.generateJwt(user);
         Cookie jwtCookie = new Cookie("jwt", jwt);
         jwtCookie.setHttpOnly(true);
+        jwtCookie.setPath("/");
         response.addCookie(jwtCookie);
         return new AuthResponse(jwt);
     }

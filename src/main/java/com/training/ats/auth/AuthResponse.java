@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 /**
- * record to send a jwt token to the user as a json object on successful authentication
+ * record to send a user's basic data as a response
  *
  * @param jwtToken
  */
