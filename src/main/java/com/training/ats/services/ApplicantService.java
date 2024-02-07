@@ -2,6 +2,8 @@ package com.training.ats.services;
 
 import com.training.ats.dto.AtsUserRecord;
 import com.training.ats.dto.ResponseRecord;
+import com.training.ats.exceptions.ErrorMessageBuilder;
+import com.training.ats.exceptions.ErrorType;
 import com.training.ats.models.AtsUser;
 import com.training.ats.models.RoleType;
 import com.training.ats.repositories.AtsUserRepository;
@@ -24,7 +26,7 @@ import java.util.stream.Collectors;
 @Transactional
 public class ApplicantService implements GenericServiceInterface<AtsUserRecord, String> {
 
-
+    private static final String LOGGER = "Applicant Logger";
     @Autowired
     private AtsUserRepository applicantRepository;
 
@@ -40,11 +42,11 @@ public class ApplicantService implements GenericServiceInterface<AtsUserRecord, 
     public AtsUserRecord get(String id) {
         AtsUser user = (AtsUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (!user.getUsername().equals(id)) {
-            throw new EntityNotFoundException("Cannot get entity of unauthorized user");
+            throw new EntityNotFoundException(ErrorMessageBuilder.getMessage(LOGGER, ErrorType.UNAUTHORIZED_OPERATION));
         }
         Optional<AtsUser> applicant = applicantRepository.findByUsernameAndRoleType(id, RoleType.APPLICANT);
         if (applicant.isEmpty())
-            throw new EntityNotFoundException("user not found");
+            throw new EntityNotFoundException(ErrorMessageBuilder.getMessage(LOGGER, ErrorType.ENTITY_NOT_FOUND));
         return new AtsUserRecord(
                 applicant.get().getFirstName(), applicant.get().getLastName(), applicant.get().getUsername()
         );
@@ -55,16 +57,16 @@ public class ApplicantService implements GenericServiceInterface<AtsUserRecord, 
         // verify if the delete operation is from the authenticated user
         AtsUser user = (AtsUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (!user.getUsername().equals(id)) {
-            return new ResponseRecord(HttpStatus.UNAUTHORIZED.value(), "Unauthorized delete operation");
+            return new ResponseRecord(HttpStatus.UNAUTHORIZED.value(), ErrorMessageBuilder.getMessage(LOGGER, ErrorType.UNAUTHORIZED_OPERATION));
         }
         applicantRepository.deleteById(id);
-        return new ResponseRecord(HttpStatus.OK.value(), "Applicant deleted");
+        return new ResponseRecord(HttpStatus.OK.value(), ErrorMessageBuilder.getMessage(LOGGER, ErrorType.ENTITY_DELETED));
     }
 
     @Override
     public ResponseRecord delete() {
         applicantRepository.deleteAllByRoleType(RoleType.APPLICANT);
-        return new ResponseRecord(HttpStatus.OK.value(), "All applicants deleted");
+        return new ResponseRecord(HttpStatus.OK.value(), ErrorMessageBuilder.getMessage(LOGGER, ErrorType.ENTITY_DELETED_ALL));
     }
 
     @Override
@@ -73,7 +75,7 @@ public class ApplicantService implements GenericServiceInterface<AtsUserRecord, 
         AtsUser user = (AtsUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         try {
             if (!user.getUsername().equals(id)) {
-                throw new AuthenticationException("Unauthorized update");
+                throw new AuthenticationException(ErrorMessageBuilder.getMessage(LOGGER, ErrorType.UNAUTHORIZED_OPERATION));
             }
             applicantRepository.save(
                     AtsUser.builder()
@@ -83,10 +85,10 @@ public class ApplicantService implements GenericServiceInterface<AtsUserRecord, 
                             .build()
             );
         } catch (AuthenticationException ignored) {
-            return new ResponseRecord(HttpStatus.UNAUTHORIZED.value(), "Unauthorized update");
+            return new ResponseRecord(HttpStatus.UNAUTHORIZED.value(), ErrorMessageBuilder.getMessage(LOGGER, ErrorType.UNAUTHORIZED_OPERATION));
         }
 
-        return new ResponseRecord(HttpStatus.OK.value(), "User updated");
+        return new ResponseRecord(HttpStatus.OK.value(), ErrorMessageBuilder.getMessage(LOGGER, ErrorType.ENTITY_UPDATED));
     }
 
     @Override
