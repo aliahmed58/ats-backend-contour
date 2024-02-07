@@ -18,7 +18,7 @@ public interface GenericControllerInterface<T, K> {
      * get all records of a
      * @return list of all records
      */
-    @GetMapping("/")
+    @GetMapping("/get")
     ResponseEntity<List<T>> getAll();
 
     /**
@@ -26,8 +26,26 @@ public interface GenericControllerInterface<T, K> {
      * @param id primary key id
      * @return object T
      */
-    @GetMapping("/{id}")
+    @GetMapping("/get/{id}")
     ResponseEntity<T> getById(@PathVariable  K id);
+
+    /**
+     * update a record given id
+     *
+     * @param id primary key
+     * @return
+     */
+    @PostMapping("/post/{id}")
+    ResponseEntity<ResponseRecord> update(@RequestBody @Valid T object, @PathVariable K id);
+
+    /**
+     * Save a given object into database
+     *
+     * @param object object to save
+     * @return
+     */
+    @PostMapping("/put")
+    ResponseEntity<ResponseRecord> save(@RequestBody @Valid T object);
 
     /**
      * delete a record by id
@@ -46,21 +64,5 @@ public interface GenericControllerInterface<T, K> {
     @GetMapping("/delete")
     ResponseEntity<ResponseRecord> deleteAll();
 
-    /**
-     * update a record given id
-     *
-     * @param id primary key
-     * @return
-     */
-    @PostMapping("/update/{id}")
-    ResponseEntity<ResponseRecord> update(@RequestBody @Valid T object, @PathVariable K id);
 
-    /**
-     * Save a given object into database
-     *
-     * @param object object to save
-     * @return
-     */
-    @PostMapping("/save")
-    ResponseEntity<ResponseRecord> save(@RequestBody @Valid T object);
 }
