@@ -64,7 +64,10 @@ public class JwtService {
   }
 
   public String generateRefreshJwt(UserDetails userDetails) {
-    return generateRefreshJwt(new HashMap<>(), userDetails);
+    Map<String, Object> claims = userDetails.getAuthorities()
+            .stream()
+            .collect(Collectors.toMap(GrantedAuthority::getAuthority, s -> true));
+    return generateRefreshJwt(claims, userDetails);
   }
 
   /**
