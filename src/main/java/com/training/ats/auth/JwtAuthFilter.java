@@ -51,6 +51,14 @@ public class JwtAuthFilter extends OncePerRequestFilter {
       filterChain.doFilter(request, response);
       return;
     }
+    // if path is a deletion of an AtsUser remove the jwt cookie
+    if (request.getRequestURI().contains(("/applicant/delete/")) || request.getRequestURI().contains("/recruiter/delete/")) {
+      Cookie changed = new Cookie("jwt", "invalid");
+      changed.setPath("/");
+      changed.setHttpOnly(true);
+      changed.setMaxAge(0);
+      response.addCookie(changed);
+    }
     final String authHeader = request.getHeader("Authorization");
     final String jwt;
     if (authHeader == null ||!authHeader.startsWith("Bearer ")) {
@@ -60,7 +68,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     jwt = authHeader.substring(7);
     // get username from jwt token
     String username = jwtService.extractUsername(jwt);
-
     // check if username is not null AND user is already not authenticated
     if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
@@ -74,7 +81,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                 userDetails, null, userDetails.getAuthorities()
         );
-
         // add details of web authentication using the request
         authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 

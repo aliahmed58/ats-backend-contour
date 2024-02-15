@@ -124,4 +124,25 @@ public class AuthService {
             throw new AuthenticationException(ErrorMessageBuilder.getMessage(LOGGER, ErrorType.UNAUTHORIZED_OPERATION));
         }
     }
+
+    public String logout(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
+        // logout user by deleting the refresh token from cookie
+        // get cookies
+        if (request.getCookies() == null) {
+            throw new AuthenticationException(ErrorMessageBuilder.getMessage(LOGGER, ErrorType.UNAUTHORIZED_OPERATION));
+        }
+        Optional<Cookie> refreshTokenCookie = Arrays.stream(request.getCookies())
+                .filter(c -> c.getName().equals("jwt"))
+                .findAny();
+        if (refreshTokenCookie.isEmpty()) {
+            throw new AuthenticationException(ErrorMessageBuilder.getMessage(LOGGER, ErrorType.UNAUTHORIZED_OPERATION));
+        }
+
+        Cookie changedCookie = new Cookie("jwt", "invalid");
+        changedCookie.setMaxAge(0);
+        changedCookie.setHttpOnly(true);
+        changedCookie.setPath("/");
+        response.addCookie(changedCookie);
+        return "Logged out";
+    }
 }

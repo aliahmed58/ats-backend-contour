@@ -49,4 +49,9 @@ public class AuthController {
         return ResponseEntity.ok(authService.refreshToken(request, response));
     }
 
+    @GetMapping("/logout")
+    public ResponseEntity<String> logout(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
+        return ResponseEntity.ok(authService.logout(request, response));
+    }
+
 }

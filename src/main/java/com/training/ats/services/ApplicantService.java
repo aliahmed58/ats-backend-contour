@@ -1,7 +1,9 @@
 package com.training.ats.services;
 
+import com.training.ats.dto.ApplicantProfileRecord;
 import com.training.ats.dto.AtsUserRecord;
 import com.training.ats.dto.ResponseRecord;
+import com.training.ats.dto.StatusCount;
 import com.training.ats.exceptions.ErrorMessageBuilder;
 import com.training.ats.exceptions.ErrorType;
 import com.training.ats.models.AtsUser;
@@ -95,5 +97,14 @@ public class ApplicantService implements GenericServiceInterface<AtsUserRecord, 
     public ResponseRecord put(AtsUserRecord object) {
         // users are saved through register api endpoint rather than save method
         return null;
+    }
+
+    public ApplicantProfileRecord applicantProfileRecord(String id) {
+        AtsUser user = (AtsUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (!user.getUsername().equals(id)) {
+            throw new EntityNotFoundException(ErrorMessageBuilder.getMessage(LOGGER, ErrorType.UNAUTHORIZED_OPERATION));
+        }
+        List<StatusCount> statusCounts = applicantRepository.countStatusTypeByUserInterface(user);
+        return new ApplicantProfileRecord(user.getUsername(), user.getFirstName(), user.getLastName(), statusCounts);
     }
 }

@@ -1,14 +1,12 @@
 package com.training.ats.controllers;
 
+import com.training.ats.dto.ApplicantProfileRecord;
 import com.training.ats.dto.AtsUserRecord;
 import com.training.ats.dto.ResponseRecord;
 import com.training.ats.services.ApplicantService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,7 +18,6 @@ public class ApplicantController extends BaseController<AtsUserRecord, String> {
     this.service = service;
   }
 
-  @Secured("ROLE_RECRUITER")
   @Override
   public ResponseEntity<List<AtsUserRecord>> get() {
     return super.get();
@@ -55,5 +52,11 @@ public class ApplicantController extends BaseController<AtsUserRecord, String> {
   @Override
   public ResponseEntity<ResponseRecord> put(@RequestBody AtsUserRecord object) {
     return super.put(object);
+  }
+
+  @GetMapping("/profile/{id}")
+  public ResponseEntity<ApplicantProfileRecord> profile(@PathVariable String id) {
+      ApplicantService applicantService = (ApplicantService) service;
+      return ResponseEntity.ok(applicantService.applicantProfileRecord(id));
   }
 }
