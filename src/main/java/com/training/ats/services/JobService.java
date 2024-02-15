@@ -31,11 +31,13 @@ public class JobService implements GenericServiceInterface<JobRecord, Long> {
         return jobRepository.findAll()
                 .stream()
                 .map(job -> new JobRecord(
+                        job.getJobId(),
                         job.getJobName(),
                         job.getJobDescription(),
                         job.getJobType().getJobTypeId(),
                         job.getJobType().getJobLevel().getLevelId(),
-                        new JobTypeRecord(job.getJobType().getType(), job.getJobType().getJobLevel().getLevelId())))
+                        new JobTypeRecord(job.getJobType().getType(), job.getJobType().getJobLevel().getLevelId(),
+                                job.getJobType().getJobLevel().getLevel())))
                 .collect(Collectors.toList());
     }
 
@@ -46,11 +48,13 @@ public class JobService implements GenericServiceInterface<JobRecord, Long> {
             throw new EntityNotFoundException(ErrorMessageBuilder.getMessage(LOGGER, ErrorType.ENTITY_NOT_FOUND));
         Job getJob = job.get();
         return new JobRecord(
+                getJob.getJobId(),
                 getJob.getJobName(),
                 getJob.getJobDescription(),
                 getJob.getJobType().getJobTypeId(),
                 getJob.getJobType().getJobLevel().getLevelId(),
-                new JobTypeRecord(getJob.getJobType().getType(), getJob.getJobType().getJobLevel().getLevelId())
+                new JobTypeRecord(getJob.getJobType().getType(), getJob.getJobType().getJobLevel().getLevelId(),
+                        getJob.getJobType().getJobLevel().getLevel())
         );
     }
 

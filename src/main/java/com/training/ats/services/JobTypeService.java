@@ -30,7 +30,8 @@ public class JobTypeService implements GenericServiceInterface<JobTypeRecord, Lo
                 .stream()
                 .map(jt -> new JobTypeRecord(
                         jt.getType(),
-                        jt.getJobLevel().getLevelId()
+                        jt.getJobLevel().getLevelId(),
+                        jt.getJobLevel().getLevel()
                 ))
                 .collect(Collectors.toList());
     }
@@ -42,7 +43,8 @@ public class JobTypeService implements GenericServiceInterface<JobTypeRecord, Lo
             throw new EntityNotFoundException(ErrorMessageBuilder.getMessage(LOGGER, ErrorType.ENTITY_NOT_FOUND));
         return new JobTypeRecord(
                 jobType.get().getType(),
-                jobType.get().getJobLevel().getLevelId()
+                jobType.get().getJobLevel().getLevelId(),
+                jobType.get().getJobLevel().getLevel()
         );
     }
 

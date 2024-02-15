@@ -9,7 +9,11 @@ public record JobTypeRecord(
         @NotBlank(message = "Job type cannot be blank")
         String type,
 
+        @NotNull(message = "Job level id cannot be null")
+        Long jobLevel,
+
         @NotNull(message = "Job level cannot be null")
-        Long jobLevel
+        @NotBlank(message = "Job level cannot be blank")
+        String level
 ) {
 }
