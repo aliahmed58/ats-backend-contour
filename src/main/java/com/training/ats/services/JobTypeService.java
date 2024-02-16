@@ -29,6 +29,7 @@ public class JobTypeService implements GenericServiceInterface<JobTypeRecord, Lo
         return jobTypeRepository.findAll()
                 .stream()
                 .map(jt -> new JobTypeRecord(
+                        jt.getJobTypeId(),
                         jt.getType(),
                         jt.getJobLevel().getLevelId(),
                         jt.getJobLevel().getLevel()
@@ -41,7 +42,7 @@ public class JobTypeService implements GenericServiceInterface<JobTypeRecord, Lo
         Optional<JobType> jobType = jobTypeRepository.findById(id);
         if (jobType.isEmpty())
             throw new EntityNotFoundException(ErrorMessageBuilder.getMessage(LOGGER, ErrorType.ENTITY_NOT_FOUND));
-        return new JobTypeRecord(
+        return new JobTypeRecord(jobType.get().getJobTypeId(),
                 jobType.get().getType(),
                 jobType.get().getJobLevel().getLevelId(),
                 jobType.get().getJobLevel().getLevel()

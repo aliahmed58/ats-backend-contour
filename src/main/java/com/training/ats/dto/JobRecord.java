@@ -5,7 +5,6 @@ import jakarta.validation.constraints.NotNull;
 
 public record JobRecord(
 
-        @NotNull(message = "job type id cannot be null")
         Long jobId,
         @NotNull(message = "job name cannot be null")
         @NotBlank(message = "job name cannot be blank")
