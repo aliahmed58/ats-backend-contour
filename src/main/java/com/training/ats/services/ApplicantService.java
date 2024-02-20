@@ -61,7 +61,7 @@ public class ApplicantService implements GenericServiceInterface<AtsUserRecord, 
         if (!user.getUsername().equals(id)) {
             return new ResponseRecord(HttpStatus.UNAUTHORIZED.value(), ErrorMessageBuilder.getMessage(LOGGER, ErrorType.UNAUTHORIZED_OPERATION));
         }
-        applicantRepository.deleteById(id);
+        applicantRepository.deleteByUsername(id);
         return new ResponseRecord(HttpStatus.OK.value(), ErrorMessageBuilder.getMessage(LOGGER, ErrorType.ENTITY_DELETED));
     }
 

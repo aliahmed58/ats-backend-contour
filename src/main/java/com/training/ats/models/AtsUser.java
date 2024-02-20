@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 /**
  * a user (applicant, recruiter) will inherit from this BaseUser class which has common information
@@ -46,6 +47,9 @@ public class AtsUser implements UserDetails {
 
   @Enumerated(value = EnumType.STRING)
   protected RoleType roleType;
+
+  @OneToMany(mappedBy = "applicant", cascade = CascadeType.REMOVE)
+  private List<Application> applications;
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {

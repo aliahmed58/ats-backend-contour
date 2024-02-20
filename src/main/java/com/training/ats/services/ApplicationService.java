@@ -1,5 +1,6 @@
 package com.training.ats.services;
 
+import com.training.ats.dto.AllApplicationRecord;
 import com.training.ats.dto.AtsUserRecord;
 import com.training.ats.dto.ResponseRecord;
 import com.training.ats.exceptions.ErrorMessageBuilder;
@@ -32,7 +33,7 @@ public class ApplicationService implements GenericServiceInterface<ApplicationRe
     public List<ApplicationRecord> get() {
         return applicationRepository.findAll()
                 .stream()
-                .map(app -> new ApplicationRecord( app.getDateOfApply(), app.getDescription(),
+                .map(app -> new ApplicationRecord(app.getDateOfApply(), app.getDescription(),
                         app.getApplicationStatus().getStatusId(), app.getJob().getJobId(),
                         app.getApplicant().getUsername()
                 ))
@@ -43,7 +44,7 @@ public class ApplicationService implements GenericServiceInterface<ApplicationRe
     public ApplicationRecord get(Long id) {
         Optional<Application> application = applicationRepository.findById(id);
         if (application.isEmpty()) {
-                throw new EntityNotFoundException(ErrorMessageBuilder.getMessage(LOGGER, ErrorType.ENTITY_NOT_FOUND));
+            throw new EntityNotFoundException(ErrorMessageBuilder.getMessage(LOGGER, ErrorType.ENTITY_NOT_FOUND));
         }
         Application a = application.get();
         // only return if the application is of the authenticated user
@@ -51,7 +52,7 @@ public class ApplicationService implements GenericServiceInterface<ApplicationRe
         if (!user.getUsername().equals(a.getApplicant().getUsername())) {
             throw new EntityNotFoundException(ErrorMessageBuilder.getMessage(LOGGER, ErrorType.ENTITY_NOT_FOUND));
         }
-        return new ApplicationRecord( a.getDateOfApply(), a.getDescription(),
+        return new ApplicationRecord(a.getDateOfApply(), a.getDescription(),
                 a.getApplicationStatus().getStatusId(), a.getJob().getJobId(),
                 a.getApplicant().getUsername()
         );
@@ -106,5 +107,18 @@ public class ApplicationService implements GenericServiceInterface<ApplicationRe
                         .build()
         );
         return new ResponseRecord(HttpStatus.OK.value(), ErrorMessageBuilder.getMessage(LOGGER, ErrorType.ENTITY_SAVED));
+    }
+
+    public List<AllApplicationRecord> getApplicationsForRecruiter() {
+        List<Application> applications = applicationRepository.findAll();
+
+        return applications.stream().map(application -> new AllApplicationRecord(
+                application.getApplicationId(),
+                application.getApplicant().getUsername(),
+                application.getJob().getJobName(),
+                application.getJob().getJobType().getJobLevel().getLevel(),
+                application.getApplicationStatus().getStatusType(),
+                application.getDescription()
+        )).toList();
     }
 }

@@ -19,6 +19,9 @@ public interface AtsUserRepository extends JpaRepository<AtsUser, String> {
     Optional<AtsUser> findByUsernameAndRoleType(String username, RoleType roleType);
 
     @Transactional
+    void deleteByUsername(String username);
+
+    @Transactional
     void deleteAllByRoleType(RoleType roleType);
 
     @Query(value = "select s.statusType as statusType, count(s.statusType) as statusCount " +
